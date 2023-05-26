@@ -1,0 +1,154 @@
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: auto;
+  min-height: 100vh;
+  font-size: 16px;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4em;
+}
+
+.title {
+  width: fit-content;
+  margin: 0 auto;
+  color: var(--color4);
+  font-size: 4em;
+  font-family: var(--font_main);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  position: relative;
+}
+
+.main_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  .description {
+    text-align: justify;
+    width: 100%;
+    max-width: 800px;
+    min-width: 480px;
+    font-size: 1.2em;
+    color: var(--color2);
+    font-family: var(--font_sec);
+  }
+  .link {
+    display: inline-block;
+    margin-top: 1em;
+    padding: 1em 2em;
+    border-radius: 1em;
+    font-family: var(--font_sec);
+    font-weight: 600;
+    font-size: 1.4em;
+    text-decoration: none;
+    background-color: var(--color5);
+    color: var(--color1);
+    transition: all 0.2s ease;
+    transition-property: transform, color, background;
+    &:hover {
+      transform: translateY(-4px);
+      color: var(--color6);
+      background: var(--color4);
+    }
+  }
+}
+
+.animation {
+  width: 100%;
+  max-width: 26em;
+  min-width: 20em;
+  overflow: hidden;
+  div {
+    transform: scale(1.2) translateY(-1em) translateX(2em);
+  }
+}
+
+.img_wrapper {
+  position: relative;
+  width: 1em;
+  height: 1em;
+  img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .container {
+    padding: 2em;
+  }
+  .main_wrapper {
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    .link {
+      padding: 1em 4em;
+    }
+  }
+  .animation {
+    div {
+      transform: scale(1.2) translateY(-1em);
+    }
+  }
+  .flex_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media screen and (max-width: 720px) {
+  .title {
+    font-size: 3em;
+  }
+  .animation {
+    max-width: 20em;
+  }
+  .main_wrapper {
+    .description {
+      font-size: 1em;
+    }
+  }
+}
+@media screen and (max-width: 550px) {
+  .title {
+    font-size: 2.5em;
+  }
+  .animation {
+    max-width: 18em;
+    min-width: 10em;
+  }
+  .main_wrapper {
+    .description {
+      font-size: 1em;
+      min-width: 300px;
+    }
+  }
+}
+@media screen and (max-width: 470px) {
+  .title {
+    font-size: 2em;
+  }
+  .animation {
+    max-width: 14em;
+  }
+  .main_wrapper {
+    .description {
+      font-size: .8em;
+    }
+    .link {
+      font-size: 1.2em;
+    }
+  }
+}
+@media screen and (max-width: 390px) {
+  .title {
+    font-size: 1.6em;
+  }
+}

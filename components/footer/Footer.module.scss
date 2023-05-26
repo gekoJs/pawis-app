@@ -1,0 +1,45 @@
+.container {
+  background: var(--color1);
+  padding: 0.8em;
+}
+.text {
+  letter-spacing: 2px;
+  width: fit-content;
+  color: var(--color3);
+  font-family: var(--font_sec);
+  font-size: 1em;
+  margin: 0 auto;
+  a {
+    width: fit-content;
+    position: relative;
+    text-decoration: none;
+    color: var(--color3);
+    hr {
+      position: absolute;
+      right: 0;
+      border-color: var(--color6);
+      opacity: .6;
+      width: 37%;
+      transition: all .2s ease;
+      transition-property: opacity, width;
+    }
+    transition: color .2s ease;
+    &:hover{
+        color: var(--color6);
+    }
+    &:hover hr{
+        opacity: 1;
+        width: 100%;
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .text{
+  font-size: .6em;
+  }
+}
+@media screen and (max-width: 390px) {
+  .text{
+  font-size: .5em;
+  }
+}
