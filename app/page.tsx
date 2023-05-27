@@ -1,17 +1,18 @@
 import { default as Landing_layout } from "@/layouts/landing/Landing";
 import { Footer } from "../components/index";
+
 export const metadata = {
   title: "Pawis",
-  description: "This is the description of my page.",
-  keywords: ["keyword1", "keyword2", "keyword3"],
+  description: "Pawis landing page",
+  keywords: ["dogs", "landing", "friend"],
   icons: "/assets/icons/pawis_logo.svg",
 };
 
 export default function Page() {
   return (
-    <>
+    <div>
       <Landing_layout />
       <Footer />
-    </>
+    </div>
   );
 }

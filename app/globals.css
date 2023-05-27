@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Gloock&family=Montserrat+Alternates:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Gloock&family=Montserrat+Alternates:wght@100;200;300;400;500;600;700;800;900&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -14,9 +14,9 @@
   --color6: #f5e9cf;
 
   --font_main: "Gloock";
-  --font_sec: "Montserrat Alternates"
+  --font_sec: "Montserrat Alternates";
 }
 
-body{
-  background-color: var(--color6);
+body {
+  background: var(--color6);
 }
