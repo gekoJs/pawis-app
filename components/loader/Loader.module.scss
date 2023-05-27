@@ -1,0 +1,40 @@
+.container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000000000;
+    background-color: var(--color6);
+}
+.wrapper{
+    width: 100%;
+    max-width: 200px;
+    height: 360px;
+    position: relative;
+    .imgWrapper{
+        position: relative;
+        width: 80px;
+        height: 80px;
+        animation: paw 3s ease infinite;
+    }
+    img{
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+@keyframes paw {
+    0%{
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
