@@ -1,16 +1,34 @@
+import style from "./Filter.module.scss";
+import Image from "next/image";
 export default function Filters() {
   return (
-    <div>
-      <div>
-        <h5>Order by:</h5>
-        <h1>origen api o db</h1>
-        <h1>orden asc dsc alf</h1>
-        <h1>orden peso</h1>
+    <div className={style.container}>
+      <div className={style.container_filCat}>
+        <div className={style.title}>
+          <h3>Temperament</h3>
+          <Image
+            src={"/assets/icons/expand_more.svg"}
+            alt={"Expand"}
+            width={28}
+            height={28}
+          />
+        </div>
+        {/* <ul className={style.wrapper_filCat}>
+          {Array.from({ length: 10 }, () => (
+            <li className={`${style.filCat_item} ${style.hover}`}>
+              <p>Category</p>
+            </li>
+          ))}
+        </ul> */}
       </div>
-      
+
+      <h3>Origin</h3>
+      <h3>orden asc dsc alf</h3>
+      <h3>orden peso</h3>
+
       <div>
-        <h1>Filter By:</h1>
-        <h1>por temperamento</h1>
+        <h3>Filter By:</h3>
+        <h3>por temperamento</h3>
       </div>
     </div>
   );

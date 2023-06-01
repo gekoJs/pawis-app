@@ -5,7 +5,7 @@ export const metadata = {
   title: "Pawis",
   description: "Pawis landing page",
   keywords: ["dogs", "landing", "friend"],
-  icons: "/assets/icons/pawis_logo.svg",
+  icons: "/assets/icons/paw.svg",
 };
 
 export default function Page() {

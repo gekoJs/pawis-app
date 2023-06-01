@@ -1,0 +1,31 @@
+.container {
+  border: 1px solid black;
+  font-family: var(--font_sec);
+  color: var(--color1);
+}
+.container_filCat {
+  display: flex;
+  align-items: center;
+  gap: .8em;
+}
+.title{
+    display: flex;
+    align-items: center;
+}
+.wrapper_filCat {
+  display: flex;
+  gap: 0.5em;
+  list-style: none;
+}
+.filCat_item {
+  background: var(--color7);
+  color: var(--color4);
+  padding: 1em;
+  border-radius: 1em;
+}
+.hover {
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: translateY(-4px);
+  }
+}

@@ -10,6 +10,7 @@ export default function Loader() {
         {Array.from({ length: 4 }, (e, i) => {
           return (
             <div
+            key={i}
               style={{
                 position: "absolute",
                 top:  i*90,

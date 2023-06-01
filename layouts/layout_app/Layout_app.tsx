@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import { useSelector } from "react-redux";
 import { StateRedux } from "@/utils/types/types";
+
 export default function Layout_app({
   children,
 }: {
