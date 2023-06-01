@@ -1,17 +1,15 @@
 const { connectToDB } = require("../../../db/index");
 const { NextResponse } = require("next/server");
-const { postDog } = require("../../../db/controllers/index");
-const { getData } = require("../../../helpers/api_helpers/getAllData");
+const { getAllDogs, postDog } = require("../../../db/controllers/index");
 
 const GET = async (req) => {
-
   const url = new URL(req.url);
   const query = url.searchParams.get("query");
 
   await connectToDB();
 
   try {
-    const allData = await getData(query);
+    const allData = await getAllDogs(query);
 
     return NextResponse.json(allData, { status: 200 });
   } catch (error) {

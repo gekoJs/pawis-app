@@ -4,6 +4,12 @@ module.exports = (dataBase) => {
   dataBase.define(
     "Dog",
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        primaryKey: true,
+      },
       breed: {
         type: DataTypes.STRING,
         allowNull: false,
