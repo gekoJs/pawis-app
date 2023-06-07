@@ -1,4 +1,4 @@
-import { default as Landing_layout } from "@/layouts/landing/Landing";
+import { default as Landing_layout } from "../layouts/landing/Landing";
 import { Footer } from "../components/index";
 
 export const metadata = {

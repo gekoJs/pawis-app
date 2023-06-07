@@ -5,7 +5,6 @@ const { getAllDogs, postDog } = require("../../../db/controllers/index");
 const GET = async (req) => {
   const url = new URL(req.url);
   const query = url.searchParams.get("query");
-
   await connectToDB();
 
   try {

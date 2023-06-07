@@ -15,7 +15,7 @@ import { Loader } from "@/components";
 
 /////////////////////////////////////////////////////////////
 
-export default async function Landing() {
+export default function Landing() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState({ img: true, anim: true });
@@ -27,7 +27,7 @@ export default async function Landing() {
         dispatch(loader_active_fn(false)))
       : null;
   }, [lottieRef.current?.animationLoaded]);
-
+  
   return (
     <div className={style.container}>
       {Object.values(loading).some((e) => e === true) && <Loader />}
