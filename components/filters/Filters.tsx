@@ -71,7 +71,8 @@ export default function Filters() {
     setAllContent((prev) => {
       const newContent = [...prev];
       newContent[0].options = tempData?.data.map(
-        (e: type_temp) => e.temperament
+        (e: type_temp) => e
+        // (e: type_temp) => e.temperament
       );
       return newContent;
     });
