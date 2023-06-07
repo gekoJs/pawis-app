@@ -1,5 +1,5 @@
 "use client";
-
+import axios from "axios"
 import style from "./Landing.module.scss";
 import landing_anim from "../../public/assets/animations/landing_anim.json";
 
@@ -27,15 +27,15 @@ export default function Landing() {
         dispatch(loader_active_fn(false)))
       : null;
   }, [lottieRef.current?.animationLoaded]);
-
+  
   return (
     <div className={style.container}>
-      {Object.values(loading).some((e) => e === true) && <Loader/>}
+      {Object.values(loading).some((e) => e === true) && <Loader />}
       <h1 className={style.title}>
-        Welcome to Pawis{" "}
+        Welcome to Pawis
         <div className={style.img_wrapper}>
           <Image
-            src={"/assets/icons/pawis_logo.svg"}
+            src={"/assets/icons/paw.svg"}
             alt="pawis logo"
             fill={true}
             onLoadingComplete={() => setLoading({ ...loading, img: false })}
@@ -55,10 +55,7 @@ export default function Landing() {
         </div>
 
         <div className={style.animation}>
-          <Lottie
-            lottieRef={lottieRef}
-            animationData={landing_anim}
-          />
+          <Lottie lottieRef={lottieRef} animationData={landing_anim} />
         </div>
       </div>
     </div>
