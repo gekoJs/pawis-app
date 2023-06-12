@@ -1,0 +1,45 @@
+.container {
+  width: 100%;
+  max-width: 18em;
+  min-height: 20em;
+  background-color: var(--color1);
+  border-radius: 0.8em;
+}
+.img {
+  border-radius: 0.65em 0.65em 0 0;
+  background-color: var(--color3);
+  width: 100%;
+  height: 200px;
+}
+.wrapper_content {
+  margin-top: 0.4em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 0.5em;
+}
+.wrapper_temperaments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+.title,
+.weight,
+.temperaments {
+  background: var(--color3);
+  height: 0.9em;
+  border-radius: 0.8em;
+}
+.title {
+  width: 11em;
+}
+.temperaments {
+  width: 14em;
+  height: 0.6em;
+}
+.temperaments:nth-child(2) {
+  width: 8em;
+}
+.weight {
+  width: 11em;
+}

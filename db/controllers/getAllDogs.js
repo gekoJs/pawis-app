@@ -41,9 +41,7 @@ const getAllDogs = async (query) => {
 
     if (query) {
       const regex = new RegExp(query, "i");
-      return data.filter(
-        (e) => e.Temperaments.some((e) => regex.test(e)) || regex.test(e.breed)
-      );
+      return data.filter((e) => regex.test(e.breed));
     }
 
     if (!!!dbData && !!!apiData) throw Error("Couldn't get any data");

@@ -11,11 +11,13 @@
   --color3: #6d5d6e;
   --color4: #e96479;
   --color5: #7db9b6;
-  --color6: #f5e9cf;
-  --color7: #eeddbb;
-
+  /* --color6: #f5e9cf;
+  --color7: #eeddbb; */
   --color8: #fff9f1;
 
+  --color1_op: #39364663;
+  --color4_op: #e964788c;
+  
   --font_main: "Gloock";
   --font_sec: "Montserrat Alternates";
 }
