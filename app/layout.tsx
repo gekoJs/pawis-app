@@ -1,4 +1,3 @@
-"use client"
 import MainLayout from "./MainLayout";
 export const metadata = {
   title: "Pawis",
