@@ -3,6 +3,12 @@ import style from "./Filter.module.scss";
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { TEMPERAMENTS, FILTERED_DOGS } from "../../helpers/react_query/ks";
+import { getDogsByQuery } from "../../helpers/react_query/fn";
+import { useDispatch } from "react-redux";
+import { addFilteredDogs } from "@/redux/dogs";
+
+/*---------------------------------------------------------------*/
 
 interface type_temp {
   id: number;
@@ -24,28 +30,29 @@ interface type_toFilter {
   Weight?: (string | undefined)[];
 }
 
+/*---------------------------------------------------------------*/
+
 export default function Filters() {
   const [allContent, setAllContent] = useState<type_content[]>([
     {
       id: 0,
       title: "Temperament",
-      // options: tempData?.data.map((e: type_temp) => e.temperament),
       options: [],
     },
     {
       id: 1,
       title: "Origin",
-      options: ["DataBase", "api"],
+      options: ["DataBase", "API"],
     },
     {
       id: 2,
       title: "Order",
-      options: ["asc", "desc"],
+      options: ["A-Z", "Z-A"],
     },
     {
       id: 3,
       title: "Weight",
-      options: ["max", "min"],
+      options: ["Light-Heavy", "Heavy-Light"],
     },
   ]);
   const [toFilter, setToFilter] = useState<type_toFilter>({});
@@ -58,22 +65,21 @@ export default function Filters() {
     (string | undefined)[]
   >([]);
 
+  const dispatch = useDispatch();
+
   const {
     isError: tempIsError,
     isLoading: tempLoading,
     data: tempData,
   } = useQuery({
-    queryKey: ["Temperaments"],
+    queryKey: [TEMPERAMENTS],
     queryFn: async () => await axios.get("api/temperaments"),
   });
 
   useEffect(() => {
     setAllContent((prev) => {
       const newContent = [...prev];
-      newContent[0].options = tempData?.data.map(
-        (e: type_temp) => e
-        // (e: type_temp) => e.temperament
-      );
+      newContent[0].options = tempData?.data.map((e: type_temp) => e);
       return newContent;
     });
   }, [tempData]);
@@ -105,15 +111,28 @@ export default function Filters() {
   const handleChangeSeacrh = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputSearchValue(value);
-    test(value);
-  };
-  const test = (value: string) => {
+    // test(value);
     const filtered = allContent[0].options?.filter((e) =>
       e.toLowerCase().includes(value)
     );
     const data = !!filtered?.length ? filtered : [];
     setOptionsSearched(data);
   };
+
+  const {
+    data: dataDogs,
+    isLoading: loadingDogs,
+    isError: errorDogs,
+    refetch,
+    isFetching,
+  } = useQuery({
+    queryKey: [FILTERED_DOGS],
+    queryFn: async () => await getDogsByQuery(toFilter),
+  });
+
+  useEffect(() => {
+    dispatch(addFilteredDogs(dataDogs));
+  }, [dataDogs]);
 
   return (
     <div className={style.container}>
@@ -196,8 +215,7 @@ export default function Filters() {
               !!optionsSearched.length &&
               allContent[toggleTitle.title_index]?.id === 0
                 ? optionsSearched
-                : // []
-                  toggleTitle.title_index ===
+                : toggleTitle.title_index ===
                     allContent[toggleTitle.title_index]?.id &&
                   (allContent[toggleTitle.title_index]?.options || [])
             }
@@ -238,7 +256,9 @@ export default function Filters() {
               ))
             )}
           </div>
-          <button className={style.search}>Search</button>
+          <button className={style.search} onClick={() => refetch()}>
+            {isFetching ? "Loading..." : "Search"}
+          </button>
         </>
       )}
       {/* FILTERS SELECTED -------------------------- */}

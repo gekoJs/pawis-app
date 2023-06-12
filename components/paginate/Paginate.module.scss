@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.pageNumber {
+  font-family: var(--font_sec);
+  font-weight: 700;
+  color: var(--color8);
+  background-color: var(--color5);
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  transition-property: transform, background;
+  &:hover {
+    background-color: var(--color4);
+    transform: translateY(-4px);
+  }
+}
+
+.active {
+  background-color: var(--color4);
+  color: var(--color8);
+  transform: translateY(-4px);
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  width: 3em;
+  height: 3em;
+  cursor: pointer;
+  background-color: transparent;
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: translateY(-4px);
+    svg {
+      fill: var(--color5);
+    }
+  }
+  svg {
+    transition: fill 0.2s ease;
+    fill: var(--color4);
+  }
+}
