@@ -32,7 +32,7 @@ interface type_toFilter {
 
 /*---------------------------------------------------------------*/
 
-export default function Filters() {
+export default function Filters({ page }: { page: any }) {
   const [allContent, setAllContent] = useState<type_content[]>([
     {
       id: 0,
@@ -126,10 +126,14 @@ export default function Filters() {
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: [FILTERED_DOGS],
-    queryFn: async () => await getDogsByQuery(toFilter),
+    queryKey: [FILTERED_DOGS, page],
+    queryFn: async () => await getDogsByQuery({ toFilter, page }),
+    enabled: false,
   });
 
+  useEffect(() => {
+    refetch();
+  }, [page]);
   useEffect(() => {
     dispatch(addFilteredDogs(dataDogs));
   }, [dataDogs]);
