@@ -10,12 +10,12 @@ export default function AllCards({
   dogs: any;
   loading: any;
 }) {
+  console.log("dogs", dogs)
   return (
     <div className={s.container}>
       {loading
         ? Array.from({ length: 8 }, (e, i) => <CardSkeleton key={i} />)
-        : // <div>aaaaaaaaaaaaaaaaaa</div>
-          dogs?.data.map((e: any, i: any) => (
+        : dogs?.data?.map((e: any, i: any) => (
             <Card
               key={i}
               img={e.image}

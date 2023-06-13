@@ -7,15 +7,15 @@ const GET = async (req) => {
   const query = url.searchParams.get("breed");
   const page = url.searchParams.get("page");
   
-  const ord = url.searchParams.getAll("ord");
-  const tmp = url.searchParams.getAll("tmp");
-  const orig = url.searchParams.getAll("orig");
-  const wght = url.searchParams.getAll("wght");
+  // const ord = url.searchParams.getAll("ord");
+  // const tmp = url.searchParams.getAll("tmp");
+  // const orig = url.searchParams.getAll("orig");
+  // const wght = url.searchParams.getAll("wght");
   await connectToDB();
   try {
 
-    // const allData = await getAllDogs(query);
-    const allData = await getDogsByQuery({tmp, ord, orig, wght, query})
+    const allData = await getAllDogs(query);
+    // const allData = await getDogsByQuery({tmp, ord, orig, wght, query})
 
     let final_data = allData
 
