@@ -36,7 +36,7 @@ export default function MainPage() {
 
   return (
     <div>
-      <Nav data={finalData} />
+      <Nav />
       <Filters page={page} />
       <AllCards dogs={finalData} loading={dogsLoading} />
       <Paginate length={finalData?.length} page={page} setPage={setPage} />
