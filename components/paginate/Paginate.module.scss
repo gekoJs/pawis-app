@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   gap: 1em;
-  margin-bottom: 1em;
+  margin: 3em auto;
 }
 
 .pageNumber {
@@ -29,6 +29,7 @@
   background-color: var(--color4);
   color: var(--color8);
   transform: translateY(-4px);
+  cursor: auto;
 }
 
 .actionButtons {

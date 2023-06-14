@@ -32,7 +32,7 @@ interface type_toFilter {
 
 /*---------------------------------------------------------------*/
 
-export default function Filters({ page }: { page: any }) {
+export default function Filters() {
   const [allContent, setAllContent] = useState<type_content[]>([
     {
       id: 0,
@@ -111,7 +111,6 @@ export default function Filters({ page }: { page: any }) {
   const handleChangeSeacrh = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputSearchValue(value);
-    // test(value);
     const filtered = allContent[0].options?.filter((e) =>
       e.toLowerCase().includes(value)
     );
@@ -126,14 +125,11 @@ export default function Filters({ page }: { page: any }) {
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: [FILTERED_DOGS, page],
-    queryFn: async () => await getDogsByQuery({ toFilter, page }),
+    queryKey: [FILTERED_DOGS],
+    queryFn: async () => await getDogsByQuery({ toFilter }),
     enabled: false,
   });
 
-  useEffect(() => {
-    refetch();
-  }, [page]);
   useEffect(() => {
     dispatch(addFilteredDogs(dataDogs));
   }, [dataDogs]);
@@ -162,7 +158,9 @@ export default function Filters({ page }: { page: any }) {
               }));
             }}
             className={
-              toggleTitle.title_index === i
+              toggleTitle.title_index === i && toggleTitle.is_open
+                ? `${style.title} ${style.active} ${style.active_open}`
+                : toggleTitle.title_index === i
                 ? `${style.title} ${style.active}`
                 : `${style.title} ${style.hover}`
             }

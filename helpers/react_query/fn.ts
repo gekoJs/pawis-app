@@ -7,13 +7,7 @@ interface type_props {
   Weight?: (string | undefined)[];
 }
 
-export async function getDogsByQuery({
-  toFilter,
-  page,
-}: {
-  toFilter: type_props;
-  page: number;
-}) {
+export async function getDogsByQuery({ toFilter }: { toFilter: type_props }) {
   const { Temperament, Order, Origin, Weight } = toFilter;
 
   let temperament_str = null;
@@ -26,10 +20,10 @@ export async function getDogsByQuery({
   let origin_str = !!(Origin || []).length ? Origin?.toString() : null;
 
   let weight_str = !!(Weight || []).length ? Weight?.toString() : null;
-  console.log("page", page);
+
   const filterDogs = await axios
     .get(
-      `/api/dogs/filter?tmp=${temperament_str}&ord=${order_str}&orig=${origin_str}&wght=${weight_str}&page=${page}`
+      `/api/dogs/filter?tmp=${temperament_str}&ord=${order_str}&orig=${origin_str}&wght=${weight_str}`
     )
     .then((res) => res.data)
     .catch((err) => console.log(err));

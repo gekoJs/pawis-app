@@ -6,46 +6,44 @@ export default function Paginate({
   length,
   setPage,
   page,
-}: {
-  length: any;
-  setPage: any;
-  page: any;
-}) {
-  const [minLimit, setMinLimit] = useState(0);
-  const [maxlimit, setMaxlimit] = useState(8);
+  minLimit,
+  maxLimit,
+  setMinLimit,
+  setMaxLimit,
+}: any) {
   const pagesLimit = 8;
 
   const buttonsLength = Math.round(length / pagesLimit);
 
   const handleNext = () => {
     setPage((prev: any) => prev + 1);
-    if (page + 1 > maxlimit) {
+    if (page + 1 > maxLimit) {
       setMinLimit(minLimit + pagesLimit);
-      setMaxlimit(maxlimit + pagesLimit);
+      setMaxLimit(maxLimit + pagesLimit);
     }
   };
   const handleNextSec = () => {
-    if (buttonsLength > maxlimit) {
+    if (buttonsLength > maxLimit) {
       setPage(minLimit + 1 + pagesLimit);
     }
-    if (maxlimit < buttonsLength) {
+    if (maxLimit < buttonsLength) {
       setMinLimit(minLimit + pagesLimit);
-      setMaxlimit(maxlimit + pagesLimit);
+      setMaxLimit(maxLimit + pagesLimit);
     }
   };
 
   const handlePrev = () => {
     setPage((prev: any) => (prev - 1 < 0 ? prev : prev - 1));
-    if (page - 1 < maxlimit) {
+    if (page - 1 < maxLimit) {
       setMinLimit(minLimit - pagesLimit);
-      setMaxlimit(maxlimit - pagesLimit);
+      setMaxLimit(maxLimit - pagesLimit);
     }
   };
   const handlePrevSec = () => {
     if (minLimit !== 0) {
       setPage(minLimit - pagesLimit + 1);
       setMinLimit(minLimit - pagesLimit);
-      setMaxlimit(maxlimit - pagesLimit);
+      setMaxLimit(maxLimit - pagesLimit);
     }
   };
   return (
@@ -75,7 +73,7 @@ export default function Paginate({
         </button>
       )}
       {Array.from({ length: buttonsLength }, (e, i) => {
-        if (i < maxlimit && i + 1 > minLimit) {
+        if (i < maxLimit && i + 1 > minLimit) {
           return (
             <button
               key={i}
@@ -89,7 +87,7 @@ export default function Paginate({
           );
         }
       })}
-      {page !== buttonsLength && (
+      {page !== buttonsLength && buttonsLength >= 1 && (
         <button className={s.actionButtons} onClick={handleNext}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +99,7 @@ export default function Paginate({
           </svg>
         </button>
       )}
-      {buttonsLength > maxlimit && (
+      {buttonsLength > maxLimit && (
         <button className={s.actionButtons} onClick={handleNextSec}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

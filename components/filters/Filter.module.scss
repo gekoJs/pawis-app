@@ -2,10 +2,11 @@
   padding: 0 1em;
   width: 100%;
   max-width: 1440px;
-  margin: auto;
+  margin: 2em auto 3em;
   font-family: var(--font_sec);
   color: var(--color1);
   text-align: center;
+
 }
 
 .titles_wrapper {
@@ -31,6 +32,7 @@
   svg {
     height: 28px;
     transition: fill 0.2s ease;
+    transition: transform 0.2s ease;
   }
 }
 .hover {
@@ -52,6 +54,11 @@
   position: relative;
   svg {
     fill: var(--color8);
+  }
+}
+.active_open {
+  svg {
+    transform: rotate(-180deg);
   }
 }
 .active::after,
@@ -80,7 +87,7 @@
   max-height: 14em;
   overflow-y: auto;
 }
-.content_wrapper_open{
+.content_wrapper_open {
   overflow-y: hidden;
   height: 0;
 }
@@ -137,33 +144,33 @@
   color: var(--color4);
   transition: opacity 0.2s ease;
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 
-.dogsToFilter{
+.dogsToFilter {
   margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
-  gap: .8em;
-  button{
+  gap: 0.8em;
+  button {
     font-family: var(--font_sec);
     font-weight: 600;
     color: var(--color1);
-    border: .1em solid var(--color4);
+    border: 0.1em solid var(--color4);
     background: var(--color8);
-    border-radius: .8em;
+    border-radius: 0.8em;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: .6em 1.2em;
+    padding: 0.6em 1.2em;
     fill: var(--color8);
-    transition: transform .2s ease;
+    transition: transform 0.2s ease;
     cursor: pointer;
-    &:hover{
-      transform: translateY(-.2em);
+    &:hover {
+      transform: translateY(-0.2em);
     }
-    svg{
+    svg {
       width: 1.4em;
       height: 1.4em;
       fill: var(--color4);
@@ -171,7 +178,7 @@
   }
 }
 
-.search{
+.search {
   margin: 0 auto;
   margin-top: 1em;
   width: 100%;
@@ -180,14 +187,14 @@
   font-family: var(--font_sec);
   padding: 1em 2em;
   border: none;
-  border-radius: .8em;
+  border-radius: 0.8em;
   background-color: var(--color5);
   color: var(--color8);
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   transition-property: background, transform;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: var(--color4);
-    transform: translateY(-.2em);
+    transform: translateY(-0.2em);
   }
 }
