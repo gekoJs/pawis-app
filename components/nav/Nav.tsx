@@ -1,7 +1,29 @@
+"use client";
+
 import style from "./Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-export default function Nav() {
+import { useState } from "react";
+
+export default function Nav({ data, setSearchedData, loading }: any) {
+  const [searchValue, setSearchValue] = useState("");
+  const test = data?.data;
+
+  const handleChange = (e: any) => {
+    setSearchValue(e.target.value);
+    handleFilter(e.target.value);
+  };
+
+  const handleFilter = (value: string) => {
+    const searched = test?.filter((e: any) =>
+      value === ""
+        ? false
+        : e.breed.toLowerCase().includes(value.toLocaleLowerCase())
+    );
+    console.log("searched value", searched.length, value);
+    setSearchedData({ length: searched.length, data: searched });
+  };
+  
   return (
     <nav className={style.container}>
       <Link href={"/dogs"} className={`${style.imgWrapper} ${style.hover}`}>
@@ -14,7 +36,13 @@ export default function Nav() {
       </Link>
 
       <form className={style.form}>
-        <input type="text" placeholder="Search a dog" className={`${style.input} ${style.hover}`} />
+        <input
+          type="text"
+          placeholder= {loading ? "Loading..." : "Search a dog"}
+          className={`${style.input} ${style.hover}`}
+          value={searchValue}
+          onChange={(e) => handleChange(e)}
+        />
       </form>
 
       <div className={style.buttonsWrapper}>

@@ -10,7 +10,6 @@ export default function AllCards({
   dogs: any;
   loading: any;
 }) {
-  console.log("dogs", dogs)
   return (
     <div className={s.container}>
       {loading

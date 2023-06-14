@@ -10,33 +10,43 @@ import axios from "axios";
 export default function MainPage() {
   const [page, setPage] = useState(1);
   const [finalData, setFinalData] = useState<any>();
-
-  const dispatch = useDispatch();
-
+  const [testData, setTestData] = useState<any>();
+  const [searchedData, setSearchedData] = useState<any>();
   const filteredDogs: any = useSelector<StateRedux>(
     (state) => state.dataDogs.filtered_dogs
   );
 
-  const {
-    data: dataDogs,
-    isLoading: dogsLoading,
-    isError,
-  } = useQuery({
+  const { data: dataDogs, isLoading: dogsLoading } = useQuery({
     queryFn: async () => await axios.get(`api/dogs?page=${page}`),
     queryKey: [DOGS, page],
   });
+  const { data: dataAllDogs, isLoading: allDogsLoading } = useQuery({
+    queryFn: async () => await axios.get(`api/dogs`),
+    queryKey: [DOGS],
+  });
 
   useEffect(() => {
-    if (!!filteredDogs?.data?.length) {
-      setFinalData(filteredDogs);
+    if (!!searchedData?.data?.length) {
+      setFinalData(searchedData);
     } else {
-      setFinalData(dataDogs?.data);
+      if (!!filteredDogs?.data?.length) {
+        setFinalData(filteredDogs);
+        setTestData(filteredDogs);
+      } else {
+        setFinalData(dataDogs?.data);
+        setTestData(dataDogs?.data);
+      }
     }
-  }, [dataDogs, filteredDogs]);
+  }, [dataDogs, filteredDogs, searchedData]);
 
+  console.log("dataAllDogs", dataAllDogs);
   return (
     <div>
-      <Nav />
+      <Nav
+        data={!!filteredDogs?.data?.length ? testData : dataAllDogs?.data}
+        loading={allDogsLoading}
+        setSearchedData={setSearchedData}
+      />
       <Filters page={page} />
       <AllCards dogs={finalData} loading={dogsLoading} />
       <Paginate length={finalData?.length} page={page} setPage={setPage} />
