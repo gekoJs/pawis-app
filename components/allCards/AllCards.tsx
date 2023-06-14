@@ -3,19 +3,12 @@ import { Card, CardSkeleton } from "../index";
 import s from "./AllCards.module.scss";
 /*---------------------------------------------*/
 
-export default function AllCards({
-  dogs,
-  loading,
-}: {
-  dogs: any;
-  loading: any;
-}) {
-  console.log("dogs", dogs)
+export default function AllCards({ dogs, loading }: any) {
   return (
     <div className={s.container}>
       {loading
         ? Array.from({ length: 8 }, (e, i) => <CardSkeleton key={i} />)
-        : dogs?.data?.map((e: any, i: any) => (
+        : dogs?.map((e: any, i: any) => (
             <Card
               key={i}
               img={e.image}
