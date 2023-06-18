@@ -4,10 +4,18 @@ import { StateRedux } from "@/utils/types/types";
 import { useState, useEffect } from "react";
 import { Nav, Filters, AllCards, Paginate } from "../../components/index";
 import { useQuery } from "@tanstack/react-query";
-import { DOGS } from "@/helpers/react_query/ks";
+import { DOGS, FILTERED_DOGS } from "@/helpers/react_query/ks";
+import { getDogsByQuery } from "../../helpers/react_query/fn";
 import axios from "axios";
 
 //-------------------------------------------------------------------------
+
+interface type_toFilter {
+  Temperament?: (string | undefined)[];
+  Origin?: (string | undefined)[];
+  Order?: (string | undefined)[];
+  Weight?: (string | undefined)[];
+}
 
 export default function MainPage() {
   //states-----------------------------------
@@ -15,13 +23,14 @@ export default function MainPage() {
   const [finalData, setFinalData] = useState<any>();
   const [searchedData, setSearchedData] = useState<any>();
   const [searchedDataFinal, setSearchedDataFinal] = useState<any>();
-  const filteredDogs: any = useSelector<StateRedux>(
-    (state) => state.dataDogs.filtered_dogs
-  );
+  const [toFilter, setToFilter] = useState<type_toFilter>({});
+
   const [found, setFound] = useState(true);
   const [page, setPage] = useState(1);
   const [minLimit, setMinLimit] = useState(0);
   const [maxLimit, setMaxLimit] = useState(8);
+
+  const [clickOnBtnSearch, setClickOnBtnSearch] = useState(false);
   //states-----------------------------------
 
   //first data seeing fetch------------------
@@ -33,16 +42,38 @@ export default function MainPage() {
     queryKey: [DOGS],
     queryFn: async () => await axios.get(`api/dogs`),
   });
+
+  const {
+    data: dataFiltered,
+    isLoading: loadingFiltered,
+    refetch: refetchFiltered,
+    isFetching: isFetchingFiltered,
+  } = useQuery({
+    queryKey: [FILTERED_DOGS],
+    queryFn: async () => {
+      console.log("toFilter", toFilter);
+      return await getDogsByQuery({ toFilter });
+    },
+    enabled: false,
+  });
   //first data seeing fetch------------------
+
+  useEffect(() => {
+    if (clickOnBtnSearch) {
+      refetchFiltered();
+      console.log("test");
+    }
+  }, [Object.keys(toFilter).length === 0]);
 
   //data to show ----------------------------
   useEffect(() => {
-    if (!!filteredDogs?.data?.length) {
-      setAllData(filteredDogs);
+    if (!!dataFiltered?.data?.length) {
+      setAllData(dataFiltered);
     } else {
       setAllData(dataDogs?.data);
+      setClickOnBtnSearch(false);
     }
-  }, [isSuccess, filteredDogs]);
+  }, [isSuccess, dataFiltered]);
   //data to show ----------------------------
 
   //for paginate-----------------------------
@@ -61,7 +92,7 @@ export default function MainPage() {
     setPage(1);
     setMinLimit(0);
     setMaxLimit(8);
-  }, [searchedData, filteredDogs]);
+  }, [searchedData, dataFiltered]);
   //for paginate-----------------------------
 
   return (
@@ -72,12 +103,21 @@ export default function MainPage() {
         setSearchedData={setSearchedData}
         setFound={setFound}
       />
-      <Filters />
+      <Filters
+        dataFiltered={dataFiltered}
+        loadingFiltered={loadingFiltered}
+        refetchFiltered={refetchFiltered}
+        isFetchingFiltered={isFetchingFiltered}
+        toFilter={toFilter}
+        setToFilter={setToFilter}
+        clickOnBtnSearch={clickOnBtnSearch}
+        setClickOnBtnSearch={setClickOnBtnSearch}
+      />
       {found ? (
         <>
           <AllCards
             dogs={!!searchedData?.data?.length ? searchedDataFinal : finalData}
-            loading={dogsLoading}
+            loading={dogsLoading || isFetchingFiltered}
           />
           <Paginate
             length={
