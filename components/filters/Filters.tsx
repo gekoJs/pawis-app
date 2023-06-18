@@ -3,10 +3,7 @@ import style from "./Filter.module.scss";
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { TEMPERAMENTS, FILTERED_DOGS } from "../../helpers/react_query/ks";
-import { getDogsByQuery } from "../../helpers/react_query/fn";
-import { useDispatch } from "react-redux";
-import { addFilteredDogs } from "@/redux/dogs";
+import { TEMPERAMENTS } from "../../helpers/react_query/ks";
 
 /*---------------------------------------------------------------*/
 
@@ -32,7 +29,14 @@ interface type_toFilter {
 
 /*---------------------------------------------------------------*/
 
-export default function Filters() {
+export default function Filters({
+  refetchFiltered,
+  isFetchingFiltered,
+  toFilter,
+  setToFilter,
+  clickOnBtnSearch,
+  setClickOnBtnSearch,
+}: any) {
   const [allContent, setAllContent] = useState<type_content[]>([
     {
       id: 0,
@@ -55,7 +59,6 @@ export default function Filters() {
       options: ["Light-Heavy", "Heavy-Light"],
     },
   ]);
-  const [toFilter, setToFilter] = useState<type_toFilter>({});
   const [toggleTitle, setToggleTitle] = useState<type_stateToggleTitle>({
     title_index: 0,
     is_open: false,
@@ -64,8 +67,6 @@ export default function Filters() {
   const [optionsSearched, setOptionsSearched] = useState<
     (string | undefined)[]
   >([]);
-
-  const dispatch = useDispatch();
 
   const {
     isError: tempIsError,
@@ -89,7 +90,7 @@ export default function Filters() {
       handleRemoveToFilter(title, value);
       return;
     }
-    setToFilter((prev) => ({
+    setToFilter((prev: any) => ({
       ...prev,
       [title]:
         title === "Temperament"
@@ -99,11 +100,11 @@ export default function Filters() {
   };
 
   const handleRemoveToFilter = (title: keyof type_toFilter, value: string) => {
-    setToFilter((prev) => ({
+    setToFilter((prev: any) => ({
       ...prev,
       [title]:
         title === "Temperament"
-          ? (prev?.Temperament || []).filter((e) => e !== value)
+          ? (prev?.Temperament || []).filter((e: any) => e !== value)
           : [],
     }));
   };
@@ -117,23 +118,6 @@ export default function Filters() {
     const data = !!filtered?.length ? filtered : [];
     setOptionsSearched(data);
   };
-
-  const {
-    data: dataDogs,
-    isLoading: loadingDogs,
-    isError: errorDogs,
-    refetch,
-    isFetching,
-  } = useQuery({
-    queryKey: [FILTERED_DOGS],
-    queryFn: async () => await getDogsByQuery({ toFilter }),
-    enabled: false,
-  });
-
-  useEffect(() => {
-    dispatch(addFilteredDogs(dataDogs));
-  }, [dataDogs]);
-
   return (
     <div className={style.container}>
       {/* //TITLE ----------------------------------- */}
@@ -194,7 +178,7 @@ export default function Filters() {
         {toggleTitle.title_index === 0 && (
           <>
             {tempLoading ? (
-              <div>cargando</div>
+              <div>Loading...</div>
             ) : tempIsError ? (
               <div>error</div>
             ) : (
@@ -236,32 +220,45 @@ export default function Filters() {
         <>
           <div className={style.dogsToFilter}>
             {Object.keys(toFilter)?.map((title) =>
-              toFilter[title as keyof type_toFilter]?.map((option, i) => (
-                <button
-                  onClick={() =>
-                    handleRemoveToFilter(
-                      title as keyof type_toFilter,
-                      option as string
-                    )
-                  }
-                  key={i}
-                >
-                  {option}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="48"
-                    viewBox="0 -960 960 960"
+              toFilter[title as keyof type_toFilter]?.map(
+                (option: any, i: any) => (
+                  <button
+                    onClick={() =>
+                      handleRemoveToFilter(
+                        title as keyof type_toFilter,
+                        option as string
+                      )
+                    }
+                    key={i}
                   >
-                    <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
-                  </svg>
-                </button>
-              ))
+                    {option}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="48"
+                      viewBox="0 -960 960 960"
+                    >
+                      <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
+                    </svg>
+                  </button>
+                )
+              )
             )}
           </div>
-          <button className={style.search} onClick={() => refetch()}>
-            {isFetching ? "Loading..." : "Search"}
+          <button
+            className={style.search}
+            onClick={() => (
+              refetchFiltered(),
+              setClickOnBtnSearch((prev: any) => (!!prev ? true : !prev))
+            )}
+          >
+            {isFetchingFiltered ? "Loading..." : "Search"}
           </button>
         </>
+      )}
+      {clickOnBtnSearch && (
+        <button className={style.resetFilters} onClick={() => setToFilter({})}>
+          Reset Filters
+        </button>
       )}
       {/* FILTERS SELECTED -------------------------- */}
     </div>

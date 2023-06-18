@@ -198,3 +198,24 @@
     transform: translateY(-0.2em);
   }
 }
+
+.resetFilters{
+  display: block;
+  margin: 1em auto;
+  width: 100%;
+  max-width: 28em;
+  font-weight: 600;
+  font-family: var(--font_sec);
+  background-color: var(--color4);
+  color: var(--color1);
+  padding: 1em 2em;
+  border: none;
+  border-radius: 0.8em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  transition-property: color, transform;
+  &:hover {
+    transform: translateY(-0.2em);
+    color: var(--color8);
+  }
+}

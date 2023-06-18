@@ -1,0 +1,29 @@
+.button {
+  position: absolute;
+  position: fixed;
+  bottom: 1em;
+  left: 2em;
+  align-self: flex-start;
+  background: var(--color3);
+  padding: 0.6em;
+  border-radius: 0.8em;
+  transition: all 0.2s ease;
+  transition-property: background, transform;
+  cursor: pointer;
+  z-index: 1000;
+
+  svg {
+    transition: all 0.2s ease;
+    transition-property: fill;
+    fill: var(--color8);
+    width: 2em;
+    height: 2em;
+  }
+  &:hover {
+    background: var(--color1);
+    transform: translateY(-4px);
+    svg {
+      fill: var(--color3);
+    }
+  }
+}
