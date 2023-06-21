@@ -1,6 +1,5 @@
 "use client";
-import { useSelector } from "react-redux";
-import { StateRedux } from "@/utils/types/types";
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Nav, Filters, AllCards, Paginate } from "../../components/index";
 import { useQuery } from "@tanstack/react-query";
@@ -31,6 +30,8 @@ export default function MainPage() {
   const [maxLimit, setMaxLimit] = useState(8);
 
   const [clickOnBtnSearch, setClickOnBtnSearch] = useState(false);
+
+  const dispatch = useDispatch();
   //states-----------------------------------
 
   //first data seeing fetch------------------

@@ -11,6 +11,10 @@ const postDog = async (
   lifeTime_max,
   temperament
 ) => {
+  if (!!!image.length) {
+    image =
+      "https://media.ambito.com/p/6b8ffa22f75de744016825151b17fe43/adjuntos/239/imagenes/038/976/0038976249/dogejpg.jpg";
+  }
   const [newDog, createdDog] = await Dog.findOrCreate({
     where: {
       breed,

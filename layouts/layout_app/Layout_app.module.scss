@@ -1,0 +1,11 @@
+.container {
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: var(--color8);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color4);
+    border-radius: 1em;
+  }
+}

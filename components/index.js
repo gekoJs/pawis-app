@@ -7,3 +7,4 @@ export { default as Card } from "./card/Card";
 export { default as CardSkeleton } from "./cardSkeleton/CardSkeleton";
 export { default as Paginate } from "./paginate/Paginate";
 export { default as BackButton } from "./backButton/BackButton";
+export { default as Form } from "./form/Form";
