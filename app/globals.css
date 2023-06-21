@@ -5,9 +5,6 @@
   box-sizing: border-box;
 }
 
-html{
-  scroll-behavior: smooth !important;
-}
 :root {
   --color1: #393646;
   --color2: #4f4557;
@@ -20,7 +17,7 @@ html{
 
   --color1_op: #39364663;
   --color4_op: #e964788c;
-  
+
   --font_main: "Gloock";
   --font_sec: "Montserrat Alternates";
 }
