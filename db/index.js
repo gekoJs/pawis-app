@@ -5,6 +5,8 @@ const {
   DogModel,
   TemperamentModel,
   DogTemperamentModel,
+  UserModel,
+  LikesModel,
 } = require("./models/index");
 
 //-----------------------------------------------------------
@@ -20,11 +22,19 @@ const dataBase = new Sequelize(
 DogModel(dataBase);
 TemperamentModel(dataBase);
 DogTemperamentModel(dataBase);
+UserModel(dataBase);
+LikesModel(dataBase);
 
-const { Dog, Temperament, DogTemperament } = dataBase.models;
+const { Dog, Temperament, DogTemperament, User, Likes } = dataBase.models;
 
 Dog.belongsToMany(Temperament, { through: DogTemperament });
 Temperament.belongsToMany(Dog, { through: DogTemperament });
+
+User.hasMany(Dog);
+Dog.belongsTo(User); 
+
+Dog.belongsToMany(User, {through: Likes})
+User.belongsToMany(Dog, {through: Likes})
 
 var isConnected = false;
 
@@ -34,7 +44,7 @@ const connectToDB = async () => {
     return;
   }
   try {
-    await dataBase.sync({ force: false });
+    await dataBase.sync({ alter: true });
     isConnected = true;
     console.log("DB connected");
     return;

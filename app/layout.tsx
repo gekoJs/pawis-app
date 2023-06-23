@@ -8,8 +8,10 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  session,
 }: {
   children: React.ReactNode;
+  session: any;
 }) {
-  return <MainLayout>{children}</MainLayout>;
+  return <MainLayout session={session}>{children}</MainLayout>;
 }
