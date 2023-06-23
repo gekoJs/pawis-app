@@ -3,9 +3,13 @@
 import style from "./Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "@/components";
 import { usePathname } from "next/navigation";
+import { useSession, signIn, signOut, getProviders } from "next-auth/react";
+
+import { LiteralUnion, ClientSafeProvider } from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers";
 
 //------------------------------------------
 
@@ -28,7 +32,22 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
       setFound(!!searched.length);
     }
   };
+  //AUTH------------------------------------------
+  const { data: session } = useSession();
+  const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>(null);
 
+  useEffect(() => {
+    const setUpProviders = async () => {
+      const response = await getProviders();
+      setProviders(response);
+    };
+    setUpProviders();
+  }, []);
+  console.log(session);
+  //AUTH------------------------------------------
   const pathname = usePathname();
   return (
     <>
@@ -41,6 +60,7 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
             height={30}
           />
         </Link>
+
         {pathname === "/dogs" && (
           <form className={style.form}>
             <input
@@ -54,14 +74,44 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
         )}
 
         <div className={style.buttonsWrapper}>
-          <button
-            className={`${style.button} ${style.hover}`}
-            onClick={() => setFormOpen(true)}
-          >
-            Create Dog
-          </button>
-          <button className={`${style.button} ${style.hover}`}>Sign in</button>
-          <button className={`${style.button} ${style.hover}`}>Sign up</button>
+          {session?.user ? (
+            <>
+              <button
+                className={`${style.button} ${style.button_create} ${style.hover}`}
+                onClick={() => setFormOpen(true)}
+              >
+                Create Dog
+              </button>
+
+              <button
+                className={`${style.button} ${style.hover}`}
+                onClick={() => signOut()}
+              >
+                Sign Out
+              </button>
+              <Link href={"/"} className={style.perfil_img_link}>
+                <Image
+                  src={session?.user.image || ""}
+                  fill
+                  className={style.perfil_img}
+                  alt="profile"
+                />
+              </Link>
+            </>
+          ) : (
+            <>
+              {providers &&
+                Object.values(providers).map((provider, i) => (
+                  <button
+                    key={i}
+                    className={`${style.button} ${style.hover}`}
+                    onClick={() => signIn(provider.id)}
+                  >
+                    Sign In
+                  </button>
+                ))}
+            </>
+          )}
         </div>
       </nav>
 

@@ -12,7 +12,6 @@ export default function Page() {
   return (
     <div>
       <Landing_layout />
-      <Footer />
     </div>
   );
 }
