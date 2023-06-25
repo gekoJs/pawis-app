@@ -10,13 +10,13 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    // async session({ session }) {
-    //   const sessionUser = await User.findOne({
-    //     where: { email: session.user.email },
-    //   });
-    //   session.user.id = sessionUser._id.toString();
-    // return session
-    // },
+    async session({ session }) {
+      const sessionUser = await User.findOne({
+        where: { email: session.user.email },
+      });
+      session.user.id = sessionUser.id.toString();
+    return session
+    },
     async signIn({ profile }) {
       console.log("profile¡¡¡¡¡¡", profile);
       try {

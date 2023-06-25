@@ -5,7 +5,7 @@ module.exports = (dataBase) => {
     "Dog",
     {
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.UUID || DataTypes.INTEGER,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,

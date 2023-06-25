@@ -30,10 +30,11 @@ const POST = async (req, res) => {
     lifeTime_min,
     lifeTime_max,
     temperament,
+    userId,
   } = await req.json();
 
   await connectToDB();
-
+  console.log(userId);
   try {
     if (
       !breed ||
@@ -43,7 +44,8 @@ const POST = async (req, res) => {
       !weight_max ||
       !lifeTime_min ||
       !lifeTime_max ||
-      !temperament
+      !temperament ||
+      !userId
     )
       throw Error("Missing info");
     else {
@@ -56,7 +58,8 @@ const POST = async (req, res) => {
         weight_max,
         lifeTime_min,
         lifeTime_max,
-        temperament
+        temperament,
+        userId
       );
       return NextResponse.json(newDog, {
         status: 200,

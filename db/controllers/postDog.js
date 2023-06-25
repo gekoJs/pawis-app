@@ -1,4 +1,4 @@
-const { Dog, Temperament } = require("../index");
+const { Dog, Temperament, User } = require("../index");
 
 const postDog = async (
   breed,
@@ -9,7 +9,8 @@ const postDog = async (
   weight_max,
   lifeTime_min,
   lifeTime_max,
-  temperament
+  temperament,
+  userId
 ) => {
   if (!!!image.length) {
     image =
@@ -27,10 +28,9 @@ const postDog = async (
       weight_max,
       lifeTime_min,
       lifeTime_max,
-      temperament,
     },
   });
-
+  
   const dogTemperaments = await Promise.all(
     temperament?.map(async (temp) => {
       const [temperament, created] = await Temperament.findOrCreate({
@@ -40,6 +40,13 @@ const postDog = async (
     })
   );
 
+  const user = await User.findOne({
+    where: {
+      email: userId,
+    },
+  });
+
+  await user.addDog(newDog) 
   await newDog.addTemperaments(dogTemperaments);
 
   return { newDog, createdDog };
