@@ -1,74 +1,80 @@
-.container{
-    width: 100%;
-    min-width: 18em;
-    max-width: 18em;
-    min-height: 22em;
-    font-family: var(--font_sec);
-    cursor: pointer;
-    border-radius: .8em;
-    transition: transform .2s ease;
-    background: var(--color1);
-    &:hover{
-        transform: translateY(-4px)
-    }
+.container {
+  width: 100%;
+  min-width: 18em;
+  max-width: 18em;
+  min-height: 22em;
+  font-family: var(--font_sec);
+  cursor: pointer;
+  border-radius: 0.8em;
+  transition: transform 0.2s ease;
+  background: var(--color1);
+  &:hover {
+    transform: translateY(-4px);
+  }
 }
-.wrapper_img{
-    position: relative;
-    width: 100%;
-    height: 200px;
+.wrapper_img {
+  position: relative;
+  width: 100%;
+  height: 200px;
 }
-.img{
-    border-radius: .65em .65em 0 0;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
+.img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.65em 0.65em 0 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-.wrapper_content{
-    position: relative;
-    padding: .5em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+.wrapper_content {
+  position: relative;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
-.breed{
-    color: var(--color4);
+.breed {
+  color: var(--color4);
 }
-.weight{
-    font-weight: 700;
-    color: var(--color5);
+.weight {
+  font-weight: 700;
+  color: var(--color5);
 }
-.wrapper_list{
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    color: var(--color8);
-    font-size: .8em;
+.wrapper_list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  color: var(--color8);
+  font-size: 0.8em;
 }
-.like_svg{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    gap: .4em;
+.like_svg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  gap: 0.4em;
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: translateY(-4px);
+  }
 }
-.wrapper_flex{
-    display: flex;
-    justify-content: space-between;
+.wrapper_flex {
+  display: flex;
+  justify-content: space-between;
 }
-.unlike_border{
-    fill: var(--color3);
+.unlike_border {
+  fill: var(--color3);
 }
-.like_full{
-    fill: var(--color4);
+.like_full {
+  fill: var(--color4);
 }
-.unlike{
-    fill: var(--color1);
+.unlike {
+  fill: var(--color1);
 }
-.allLikes{
-    color: var(--color3);
-    font-size: .8em;
-    font-family: var(--font_sec);
+.allLikes {
+  color: var(--color3);
+  font-size: 0.8em;
+  font-family: var(--font_sec);
 }

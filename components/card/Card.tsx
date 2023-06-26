@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import s from "./Card.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -33,24 +33,24 @@ export default function Card({
       await axios.post("/api/dogs/like", { id_dog, id_user }),
   });
 
+  const { isSuccess } = likePOST;
+
   const handleCLick = (e: any) => {
     e.preventDefault();
     if (id_user) {
       likePOST.mutate();
-      refetch();
     }
   };
-  console.log(likesLength);
+  useEffect(() => {
+    if (id_user) {
+      refetch();
+    }
+  }, [isSuccess]);
+  
   return (
     <div className={s.container}>
       <div className={s.wrapper_img}>
-        <Image
-          sizes={"(min-width: 60px) 100vw"}
-          fill={true}
-          alt={breed}
-          src={img}
-          className={s.img}
-        />
+        <img alt={breed} src={img} className={s.img} />
       </div>
       <div className={s.wrapper_content}>
         <div className={s.wrapper_flex}>
