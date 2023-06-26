@@ -19,7 +19,6 @@ export default function AllCards({ dogs, loading }: any) {
   const userLikes = allLikes?.data.filter(
     (e: any) => e.UserId === session?.user?.id
   );
-console.log(dogs)
   return (
     <div className={s.container}>
       {loading
