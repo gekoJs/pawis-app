@@ -13,7 +13,7 @@ const {
 
 const dataBase = new Sequelize(
   // psql 'postgresql://gekoJs:uMgZ6raR5EDJ@ep-dawn-term-820368.us-east-2.aws.neon.tech/neondb'
-  `postgres://${process.env.DB_USER}:${process.env.DB_PW}@${process.env.DB_HOST}`,
+  `postgresql://${process.env.DB_USER}:${process.env.DB_PW}@${process.env.DB_HOST}`,
   {
     logging: false, //para que no molesten los mensajes en el console.log
     dialectModule: pg,
