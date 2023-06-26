@@ -40,7 +40,7 @@ export default function Card({
       refetch();
     }
   };
-
+  console.log(likesLength);
   return (
     <div className={s.container}>
       <div className={s.wrapper_img}>
@@ -75,7 +75,7 @@ export default function Card({
                 </g>
               </g>
             </svg>
-            <span className={s.allLikes}>{likesLength.length}</span>
+            <span className={s.allLikes}>{likesLength?.length}</span>
           </div>
         </div>
         <ul className={s.wrapper_list}>
