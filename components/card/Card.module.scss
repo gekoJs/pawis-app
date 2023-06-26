@@ -2,7 +2,7 @@
     width: 100%;
     min-width: 18em;
     max-width: 18em;
-    min-height: 20em;
+    min-height: 22em;
     font-family: var(--font_sec);
     cursor: pointer;
     border-radius: .8em;
@@ -25,6 +25,7 @@
     left: 0;
 }
 .wrapper_content{
+    position: relative;
     padding: .5em;
     display: flex;
     flex-direction: column;
@@ -44,4 +45,30 @@
     justify-content: left;
     color: var(--color8);
     font-size: .8em;
+}
+.like_svg{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    gap: .4em;
+}
+.wrapper_flex{
+    display: flex;
+    justify-content: space-between;
+}
+.unlike_border{
+    fill: var(--color3);
+}
+.like_full{
+    fill: var(--color4);
+}
+.unlike{
+    fill: var(--color1);
+}
+.allLikes{
+    color: var(--color3);
+    font-size: .8em;
+    font-family: var(--font_sec);
 }

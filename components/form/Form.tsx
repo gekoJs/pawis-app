@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { DOGS, TEMPERAMENTS } from "@/helpers/react_query/ks";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 //--------------------------------
 
 interface type_inpState {
@@ -112,6 +113,10 @@ export default function Form({
 
   const router = useRouter();
 
+  //AUTH---------------------------------
+  const { data: session } = useSession();
+  //AUTH---------------------------------
+
   //CHANGE HANDLERS----------------------
   const handleChange = (e: any) => {
     setInpValue((prev) => {
@@ -154,6 +159,7 @@ export default function Form({
     lifeTime_max: parseInt(inpValue.LifeTime_max),
     image: inpValue.Image,
     temperament: inpValue.Temperaments,
+    userId: session?.user?.email,
   };
   const addDogData = useMutation({
     mutationFn: async () => await axios.post("/api/dogs", dataToPost),

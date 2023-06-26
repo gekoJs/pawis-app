@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Form } from "@/components";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession, signIn, signOut, getProviders } from "next-auth/react";
 
 import { LiteralUnion, ClientSafeProvider } from "next-auth/react";
@@ -16,6 +16,10 @@ import { BuiltInProviderType } from "next-auth/providers";
 export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   const [searchValue, setSearchValue] = useState("");
   const [FormOpen, setFormOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  //HANDLERS---------------------------
   const handleChange = (e: any) => {
     setSearchValue(e.target.value);
     handleFilter(e.target.value);
@@ -32,6 +36,8 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
       setFound(!!searched.length);
     }
   };
+  //HANDLERS---------------------------
+
   //AUTH------------------------------------------
   const { data: session } = useSession();
   const [providers, setProviders] = useState<Record<
@@ -46,9 +52,8 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     };
     setUpProviders();
   }, []);
-  console.log(session);
   //AUTH------------------------------------------
-  const pathname = usePathname();
+  
   return (
     <>
       <nav className={style.container}>

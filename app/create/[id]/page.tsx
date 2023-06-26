@@ -2,7 +2,7 @@
 import { TEMPERAMENTS } from "@/helpers/react_query/ks";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Card, Loader, Nav } from "@/components";
+import { Card, Loader, Nav, AllCards } from "@/components";
 import Link from "next/link";
 import s from "./page.module.scss";
 import { useRouter } from "next/navigation";
@@ -27,14 +27,16 @@ export default function IsSuccess({ params }: { params: { id: string } }) {
       <div className={s.container}>
         {isLoading && <Loader />}
         {data && (
-            <div className={s.wrapper_content}>
-              <h1 className={s.h1}>Dog Created Successfully!</h1>
-              <Link
-                href={`/dogs/${params.id}`}
-                key={params.id}
-                className={s.link}
-              >
-                <Card
+          <div className={s.wrapper_content}>
+            <h1 className={s.h1}>Dog Created Successfully!</h1>
+            <Link
+              href={`/dogs/${params.id}`}
+              key={params.id}
+              className={s.link}
+            >
+              <AllCards dogs={[data?.data]} loading={isLoading} />
+
+              {/* <Card
                   img={data?.data.image}
                   breed={data?.data.breed}
                   temperaments={data?.data.Temperaments}
@@ -43,12 +45,12 @@ export default function IsSuccess({ params }: { params: { id: string } }) {
                       ? (data?.data.weight_min + data?.data.weight_max) / 2
                       : data?.data.weight_min || data?.data.weight_max
                   }
-                />
-              </Link>
-              <Link href={"/dogs"} className={s.button_home}>
-                <button>Go Home</button>
-              </Link>
-            </div>
+                /> */}
+            </Link>
+            <Link href={"/dogs"} className={s.button_home}>
+              <button>Go Home</button>
+            </Link>
+          </div>
         )}
       </div>
     </>

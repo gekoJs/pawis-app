@@ -12,7 +12,8 @@ const {
 //-----------------------------------------------------------
 
 const dataBase = new Sequelize(
-  `postgres://${process.env.DB_USER}:${process.env.DB_PW}@${process.env.DB_HOST}/pawis`,
+  // psql 'postgresql://gekoJs:uMgZ6raR5EDJ@ep-dawn-term-820368.us-east-2.aws.neon.tech/neondb'
+  `postgres://${process.env.DB_USER}:${process.env.DB_PW}@${process.env.DB_HOST}`,
   {
     logging: false, //para que no molesten los mensajes en el console.log
     dialectModule: pg,
@@ -25,16 +26,16 @@ DogTemperamentModel(dataBase);
 UserModel(dataBase);
 LikesModel(dataBase);
 
-const { Dog, Temperament, DogTemperament, User, Likes } = dataBase.models;
+const { Dog, Temperament, DogTemperament, User } = dataBase.models;
 
 Dog.belongsToMany(Temperament, { through: DogTemperament });
 Temperament.belongsToMany(Dog, { through: DogTemperament });
 
 User.hasMany(Dog);
-Dog.belongsTo(User); 
+Dog.belongsTo(User);
 
-Dog.belongsToMany(User, {through: Likes})
-User.belongsToMany(Dog, {through: Likes})
+// User.belongsToMany(Dog, { through: Likes });
+// Dog.belongsToMany(User, { through: Likes });
 
 var isConnected = false;
 
@@ -44,7 +45,7 @@ const connectToDB = async () => {
     return;
   }
   try {
-    await dataBase.sync({ alter: true });
+    await dataBase.sync({ force: false });
     isConnected = true;
     console.log("DB connected");
     return;

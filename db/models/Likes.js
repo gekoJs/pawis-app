@@ -10,6 +10,14 @@ module.exports = (dataBase) => {
         allowNull: false,
         primaryKey: true,
       },
+      UserId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      DogId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     { timestamps: false }
   );
