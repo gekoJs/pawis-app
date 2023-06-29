@@ -52,11 +52,10 @@ export default function MainPage() {
   } = useQuery({
     queryKey: [FILTERED_DOGS],
     queryFn: async () => {
-      console.log("toFilter", toFilter);
       return await getDogsByQuery({ toFilter });
     },
     enabled: false,
-  });
+  }); 
   //first data seeing fetch------------------
 
   useEffect(() => {
@@ -74,7 +73,7 @@ export default function MainPage() {
       setAllData(dataDogs?.data);
       setClickOnBtnSearch(false);
     }
-  }, [isSuccess, dataFiltered]);
+  }, [dataDogs, dataFiltered]);
   //data to show ----------------------------
 
   //for paginate-----------------------------
@@ -118,6 +117,7 @@ export default function MainPage() {
         <>
           <AllCards
             dogs={!!searchedData?.data?.length ? searchedDataFinal : finalData}
+            // dogs={dataDogs?.data?.data}
             loading={dogsLoading || isFetchingFiltered}
           />
           <Paginate

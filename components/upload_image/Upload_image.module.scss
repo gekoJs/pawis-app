@@ -1,0 +1,31 @@
+.image {
+  width: 100%;
+  height: 100%;
+}
+.w_img {
+  border-radius: 1.8em;
+  width: 10em;
+  height: 10em;
+  position: relative;
+  overflow: hidden;
+  &:hover .label {
+    transform: translateY(0);
+  }
+}
+.label {
+    cursor: pointer;
+  transform: translateY(100%);
+  transition: transform 0.2s ease;
+  width: 100%;
+  padding: 2em 0;
+  text-align: center;
+  background-color: var(--color1_op);
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: var(--color8);
+}
+.input {
+  display: none;
+}

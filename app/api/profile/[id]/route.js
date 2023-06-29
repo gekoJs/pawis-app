@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
-import { connectToDB, Dog, Likes, Temperament } from "../../../../../db/index";
+import {
+  connectToDB,
+  Dog,
+  Likes,
+  Temperament,
+  User,
+} from "../../../../db/index";
 import { getAllDogs } from "@/db/controllers";
 
 const GET = async (req, { params }) => {
@@ -7,13 +13,13 @@ const GET = async (req, { params }) => {
 
   try {
     await connectToDB();
-
-    const userCreatedDBInfo = await Dog.findAll({
+    const userInfoDB = await User.findByPk(id);
+    const dogCreatedDBInfo = await Dog.findAll({
       where: { UserId: id },
       include: { model: Temperament },
     });
 
-    const DogsCreatedByUser = userCreatedDBInfo?.map((e) => {
+    const DogsCreatedByUser = dogCreatedDBInfo?.map((e) => {
       return {
         ...e.dataValues,
         Temperaments: e.dataValues.Temperaments.map((e) => e.temperament),
@@ -34,6 +40,7 @@ const GET = async (req, { params }) => {
     );
 
     return NextResponse.json({
+      user: userInfoDB,
       created: DogsCreatedByUser,
       liked: userLiked,
     });
@@ -42,4 +49,24 @@ const GET = async (req, { params }) => {
   }
 };
 
-module.exports = { GET };
+const PUT = async (req, { params }) => {
+  const { img, name, email } = await req.json();
+  const { id } = params;
+  
+  try {
+    const userInfoDB = await User.findByPk(id);
+
+    userInfoDB.name = name;
+    userInfoDB.image = img;
+    userInfoDB.email = email;
+
+    await userInfoDB.save();
+
+    if (!userInfoDB) return new Response("Prompt not found", { status: 404 });
+    return NextResponse.json("Done");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { GET, PUT };

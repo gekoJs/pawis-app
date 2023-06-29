@@ -40,18 +40,5 @@ const POST = async (req, res) => {
   }
 };
 
-const DELETE = async (req, { params }) => {
-  const { dog_id } = params;
 
-  try {
-    await connectToDB();
-
-    const dogs = await Dog.findAll({ where: { UserId: id } });
-
-    return NextResponse.json(dogs);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-module.exports = { GET, POST, DELETE };
+module.exports = { GET, POST };
