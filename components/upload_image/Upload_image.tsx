@@ -4,11 +4,16 @@ import { createClient } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import s from "./Upload_image.module.scss";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { type_user } from "@/utils/types/types";
+import { USER } from "@/helpers/react_query/ks";
 //---------------------------------------------------
 
 interface type_component_props {
   image?: string;
   setUserData: React.Dispatch<React.SetStateAction<object>>;
+  userData: type_user;
   isLoading: any;
 }
 interface type_bucket {
@@ -30,10 +35,11 @@ const CDNURL =
 export default function Upload_image({
   image,
   setUserData,
+  userData,
   isLoading,
 }: type_component_props) {
   //---------------------------------------------------
-
+  const queryClient = useQueryClient();
   const [bucket_img, setBucket_img] = useState<type_bucket>({
     name: "",
     file: "",
@@ -53,13 +59,21 @@ export default function Upload_image({
     setSrc_bucket(CDNURL + imgToSet[0].name || "");
   };
 
-  const uploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const imgFile = e.target.files?.[0];
     setBucket_img({
       name: uuidv4() + imgFile?.name.slice(imgFile.name.lastIndexOf(".")),
       file: imgFile,
     });
   };
+
+  const imgMutation = useMutation({
+    mutationFn: async () =>
+      await axios.put(`/api/profile/${userData.user?.id}`, { img: src_bucket }),
+    onSuccess: () => {
+      queryClient.invalidateQueries([USER, userData.user?.id]);
+    },
+  });
 
   useEffect(() => {
     const uploadFile = async () => {
@@ -75,10 +89,15 @@ export default function Upload_image({
     };
 
     if (Object.values(bucket_img).some((e) => !!e.length)) {
-      console.log("jm");
       uploadFile();
     }
   }, [bucket_img]);
+
+  useEffect(() => {
+    if (src_bucket) {
+      imgMutation.mutate();
+    }
+  }, [src_bucket]);
 
   //---------------------------------------------------
   return (
@@ -101,7 +120,7 @@ export default function Upload_image({
         className={s.input}
         type="file"
         id="upload_image"
-        onChange={(e) => uploadFile(e)}
+        onChange={(e) => handleUploadFile(e)}
       />
     </div>
   );

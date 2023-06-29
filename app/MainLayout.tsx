@@ -6,7 +6,6 @@ import Layout_app from "@/layouts/layout_app/Layout_app";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 export default function MainLayout({
   children,
   session,
@@ -23,7 +22,6 @@ export default function MainLayout({
           <Provider store={store}>
             <Layout_app>{children}</Layout_app>
           </Provider>
-          {/* <ReactQueryDevtools /> */}
         </QueryClientProvider>
       </SessionProvider>
     </html>
