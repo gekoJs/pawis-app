@@ -30,6 +30,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
           image={userData?.user?.image}
           isLoading={isLoading}
           setUserData={setUserData}
+          userData={userData}
         />
         <h1>{userData?.user?.name}</h1>
         <p>{userData?.user?.email}</p>

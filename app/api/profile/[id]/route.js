@@ -52,13 +52,13 @@ const GET = async (req, { params }) => {
 const PUT = async (req, { params }) => {
   const { img, name, email } = await req.json();
   const { id } = params;
-  
+
   try {
     const userInfoDB = await User.findByPk(id);
 
-    userInfoDB.name = name;
-    userInfoDB.image = img;
-    userInfoDB.email = email;
+    name && (userInfoDB.name = name);
+    img && (userInfoDB.image = img);
+    email && (userInfoDB.email = email);
 
     await userInfoDB.save();
 
