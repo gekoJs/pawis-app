@@ -1,0 +1,11 @@
+.container{
+    font-family: var(--font_sec);
+}
+
+.w_user_info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+}

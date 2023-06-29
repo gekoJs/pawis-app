@@ -14,7 +14,7 @@ interface type_temp {
 interface type_content {
   id: number;
   title: string;
-  options?: string[] | null;
+  options?: string[];
 }
 interface type_stateToggleTitle {
   title_index: number;

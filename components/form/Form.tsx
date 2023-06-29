@@ -7,6 +7,7 @@ import axios from "axios";
 import { DOGS, TEMPERAMENTS } from "@/helpers/react_query/ks";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { type_DogsData_rq } from "@/utils/types/types";
 //--------------------------------
 
 interface type_inpState {
@@ -42,6 +43,7 @@ export default function Form({
   FormOpen: boolean;
   setFormOpen: any;
 }) {
+  const queryClient = useQueryClient();
   const [inpValue, setInpValue] = useState<type_inpState>({
     Breed: "",
     Height_min: "",
@@ -186,6 +188,7 @@ export default function Form({
         Image: "",
         Temperaments: "",
       });
+      queryClient.invalidateQueries([DOGS], { exact: true });
       router.push(`/create/${data?.data.newDog.id}`);
     },
   });
@@ -304,7 +307,7 @@ export default function Form({
             className={
               isLoading
                 ? `${s.create} ${s.loading}`
-                : isSuccess
+                : success
                 ? `${s.create} ${s.successfull}`
                 : s.create
             }

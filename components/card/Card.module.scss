@@ -55,9 +55,11 @@
   justify-content: center;
   width: 24px;
   gap: 0.4em;
-  transition: transform 0.2s ease;
-  &:hover {
-    transform: translateY(-4px);
+  svg {
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: translateY(-4px) scale(1.1);
+    }
   }
 }
 .wrapper_flex {

@@ -7,15 +7,21 @@ import { useEffect, useState } from "react";
 import { Form } from "@/components";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession, signIn, signOut, getProviders } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
 
 import { LiteralUnion, ClientSafeProvider } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
+import axios from "axios";
+import { USER } from "@/helpers/react_query/ks";
+
+import { type_user } from "@/utils/types/types";
 
 //------------------------------------------
 
 export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   const [searchValue, setSearchValue] = useState("");
   const [FormOpen, setFormOpen] = useState(false);
+  const [userData, setUserData] = useState<type_user>({});
   const pathname = usePathname();
   const router = useRouter();
 
@@ -39,7 +45,7 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   //HANDLERS---------------------------
 
   //AUTH------------------------------------------
-  const { data: session } = useSession();
+  const { data: session }: any = useSession();
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
@@ -52,7 +58,30 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     };
     setUpProviders();
   }, []);
+
   //AUTH------------------------------------------
+
+  const {
+    data: userInfoDB,
+    isLoading: userInfoDBLoading,
+    isError,
+    isSuccess,
+    refetch,
+  } = useQuery({
+    queryFn: async () => await axios.get(`/api/profile/${session?.user.id}`),
+    queryKey: [USER, session?.user.id],
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (session && !isSuccess) {
+      refetch();
+    }
+    if (userInfoDB) {
+      setUserData(userInfoDB.data);
+    }
+  }, [session, isSuccess]);
+
   
   return (
     <>
@@ -94,13 +123,19 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
               >
                 Sign Out
               </button>
-              <Link href={"/"} className={style.perfil_img_link}>
-                <Image
-                  src={session?.user.image || ""}
-                  fill
-                  className={style.perfil_img}
-                  alt="profile"
-                />
+              <Link
+                href={`/profile/${session?.user?.id}`}
+                className={style.perfil_img_link}
+              >
+                {userInfoDBLoading ? (
+                  <div>Loading...</div>
+                ) : (
+                  <img
+                    src={userData?.user?.image}
+                    className={style.perfil_img}
+                    alt="profile"
+                  />
+                )}
               </Link>
             </>
           ) : (
