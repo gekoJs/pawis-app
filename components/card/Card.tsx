@@ -3,6 +3,9 @@ import s from "./Card.module.scss";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { Dispatch, SetStateAction } from "react";
 
 interface type_card {
   id_user: string;
@@ -14,6 +17,8 @@ interface type_card {
   like: boolean;
   refetch: any;
   likesLength: string[];
+  setFormOpen: Dispatch<SetStateAction<boolean>>;
+  setIdDog: Dispatch<SetStateAction<string | number>>;
 }
 
 export default function Card({
@@ -26,7 +31,11 @@ export default function Card({
   like,
   refetch,
   likesLength,
+  setFormOpen,
+  setIdDog,
 }: type_card) {
+  const pathname = usePathname();
+  const { data: session }: any = useSession();
   const likePOST = useMutation({
     mutationFn: async () =>
       await axios.post("/api/dogs/like", { id_dog, id_user }),
@@ -41,12 +50,12 @@ export default function Card({
       likePOST.mutate();
     }
   };
-
   return (
     <div className={s.container}>
       <div className={s.wrapper_img}>
         <img alt={breed} src={img} className={s.img} />
       </div>
+
       <div className={s.wrapper_content}>
         <div className={s.wrapper_flex}>
           <h3 className={s.breed}>{breed}</h3>
@@ -83,6 +92,21 @@ export default function Card({
         </ul>
         <p className={s.weight}>Weight: {weight}Kg</p>
       </div>
+      {pathname === `/profile/${id_user}` && session?.user.id === id_user && (
+        <div className={s.user_options}>
+          <button
+            className={s.edit}
+            onClick={(e) => {
+              e.preventDefault();
+              setFormOpen(true);
+              setIdDog(id_dog);
+            }}
+          >
+            Edit
+          </button>
+          <button className={s.delete}>Delete</button>
+        </div>
+      )}
     </div>
   );
 }

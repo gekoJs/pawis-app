@@ -1,95 +1,85 @@
-interface type_inpStateErr {
-  Breed?: string;
-  Height_min?: string;
-  Height_max?: string;
-  Weight_min?: string;
-  Weight_max?: string;
-  LifeTime_min?: string;
-  LifeTime_max?: string;
-  Image?: string;
-  Temperaments?: string;
-}
+import { type_formComponentInputError } from "@/utils/types/types";
 export const handleFormErrors = ({
-  Breed,
-  Height_min,
-  Height_max,
-  Weight_min,
-  Weight_max,
-  LifeTime_min,
-  LifeTime_max,
-  Image,
-  Temperaments,
+  breed,
+  height_min,
+  height_max,
+  weight_min,
+  weight_max,
+  lifeTime_min,
+  lifeTime_max,
+  image,
+  temperament,
 }: any) => {
-  let errors: type_inpStateErr = {};
+  let errors: type_formComponentInputError = {};
 
-  //BREED VALIDATIONS---------------------------------
-  if (!Breed) errors.Breed = "Breed is missing";
-  else if (/[0-9]+/i.test(Breed)) errors.Breed = "Numbers are not allowed";
-  else if (/[-!$%^&*()_+|~=`{}\[\]:\";'<>?,.\/]/.test(Breed))
-    errors.Breed = "Only letters allowed";
-  //BREED VALIDATIONS---------------------------------
+  //bREED VALIDATIONS---------------------------------
+  if (!breed) errors.breed = "Breed is missing";
+  else if (/[0-9]+/i.test(breed)) errors.breed = "Numbers are not allowed";
+  else if (/[-!$%^&*()_+|~=`{}\[\]:\";'<>?,.\/]/.test(breed))
+    errors.breed = "Only letters allowed";
+  //bREED VALIDATIONS---------------------------------
 
   //HEIGHT VALIDATIONS---------------------------------
-  if (!Height_max) errors.Height_max = "Whats the minimum height?";
-  else if (/[a-zA-Z]+/.test(Height_max))
-    errors.Height_max = "Letters not allowed?";
-  else if (parseInt(Height_max) < parseInt(Height_min))
-    errors.Height_max = "Max height cannot be less than min height";
+  if (!height_max) errors.height_max = "Whats the minimum height?";
+  else if (/[a-zA-Z]+/.test(height_max))
+    errors.height_max = "Letters not allowed?";
+  else if (parseInt(height_max) < parseInt(height_min))
+    errors.height_max = "Max height cannot be less than min height";
 
-  if (!Height_min) errors.Height_min = "Whats the maximum height?";
-  else if (/[a-zA-Z]+/.test(Height_min))
-    errors.Height_min = "Letters not allowed?";
-  else if (parseInt(Height_min) === 0)
-    errors.Height_min = "Min height cannot be 0";
-  else if (parseInt(Height_min) > parseInt(Height_max))
-    errors.Height_min = "Min height cannot be greater than min height";
+  if (!height_min) errors.height_min = "Whats the maximum height?";
+  else if (/[a-zA-Z]+/.test(height_min))
+    errors.height_min = "Letters not allowed?";
+  else if (parseInt(height_min) === 0)
+    errors.height_min = "Min height cannot be 0";
+  else if (parseInt(height_min) > parseInt(height_max))
+    errors.height_min = "Min height cannot be greater than min height";
   //HEIGHT VALIDATIONS---------------------------------
 
   //WEIGHT VALIDATIONS---------------------------------
-  if (!Weight_max) errors.Weight_max = "Whats the minimum weight?";
-  else if (/[a-zA-Z]+/.test(Weight_max))
-    errors.Weight_max = "Letters not allowed?";
-  else if (parseInt(Weight_max) < parseInt(Weight_min))
-    errors.Weight_max = "Max weight cannot be less than min weight";
+  if (!weight_max) errors.weight_max = "Whats the minimum weight?";
+  else if (/[a-zA-Z]+/.test(weight_max))
+    errors.weight_max = "Letters not allowed?";
+  else if (parseInt(weight_max) < parseInt(weight_min))
+    errors.weight_max = "Max weight cannot be less than min weight";
 
-  if (!Weight_min) errors.Weight_min = "Whats the maximum weight?";
-  else if (/[a-zA-Z]+/.test(Weight_min))
-    errors.Weight_min = "Letters not allowed?";
-  else if (parseInt(Weight_min) === 0)
-    errors.Weight_min = "Min weight cannot be 0";
-  else if (parseInt(Weight_min) > parseInt(Weight_max))
-    errors.Weight_min = "Min weight cannot be greater than min weight";
+  if (!weight_min) errors.weight_min = "Whats the maximum weight?";
+  else if (/[a-zA-Z]+/.test(weight_min))
+    errors.weight_min = "Letters not allowed?";
+  else if (parseInt(weight_min) === 0)
+    errors.weight_min = "Min weight cannot be 0";
+  else if (parseInt(weight_min) > parseInt(weight_max))
+    errors.weight_min = "Min weight cannot be greater than min weight";
   //WEIGHT VALIDATIONS---------------------------------
 
   //LIFETIME VALIDATIONS---------------------------------
-  if (!LifeTime_max) errors.LifeTime_max = "Whats the minimum Life Time?";
-  else if (/[a-zA-Z]+/.test(LifeTime_max))
-    errors.LifeTime_max = "Letters not allowed?";
-  else if (parseInt(LifeTime_max) < parseInt(LifeTime_min))
-    errors.LifeTime_max = "Max lifetime cannot be less than min lifetime";
+  if (!lifeTime_max) errors.lifeTime_max = "Whats the minimum Life Time?";
+  else if (/[a-zA-Z]+/.test(lifeTime_max))
+    errors.lifeTime_max = "Letters not allowed?";
+  else if (parseInt(lifeTime_max) < parseInt(lifeTime_min))
+    errors.lifeTime_max = "Max lifetime cannot be less than min lifetime";
 
-  if (!LifeTime_min) errors.LifeTime_min = "Whats the maximum Life Time?";
-  else if (/[a-zA-Z]+/.test(LifeTime_min))
-    errors.LifeTime_min = "Letters not allowed?";
-  else if (parseInt(LifeTime_min) === 0)
-    errors.LifeTime_min = "Min lifetime cannot be 0";
-  else if (parseInt(LifeTime_min) > parseInt(LifeTime_max))
-    errors.LifeTime_min = "Min lifetime cannot be greater than min lifetime";
+  if (!lifeTime_min) errors.lifeTime_min = "Whats the maximum Life Time?";
+  else if (/[a-zA-Z]+/.test(lifeTime_min))
+    errors.lifeTime_min = "Letters not allowed?";
+  else if (parseInt(lifeTime_min) === 0)
+    errors.lifeTime_min = "Min lifetime cannot be 0";
+  else if (parseInt(lifeTime_min) > parseInt(lifeTime_max))
+    errors.lifeTime_min = "Min lifetime cannot be greater than min lifetime";
   //LIFETIME VALIDATIONS---------------------------------
 
-  //IMAGE VALIDATIONS------------------------------------
-  if (!Image) {
+  //iMAGE VALIDATIONS------------------------------------
+  if (!image) {
   } else if (
     !/^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-z0-9]+(?:[\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(?::[0-9]{1,5})?(?:\/.*)?$/i.test(
-      Image
+      image
     )
   )
-    errors.Image = "We need an image URL";
-  //IMAGE VALIDATIONS------------------------------------
+    errors.image = "We need an image URL";
+  //iMAGE VALIDATIONS------------------------------------
 
-  //TEMPERAMENTS VALIDATIONS------------------------------------
-  if (!!!Temperaments.length) errors.Temperaments = "Temperaments are needed";
-  //TEMPERAMENTS VALIDATIONS------------------------------------
+  //tEMPERAMENT VALIDATIONS------------------------------------
+  if (!!!temperament.length) errors.temperament = "temperament are needed";
+  //tEMPERAMENT VALIDATIONS------------------------------------
 
   return errors;
 };

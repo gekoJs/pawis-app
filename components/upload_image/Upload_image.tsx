@@ -102,9 +102,14 @@ export default function Upload_image({
   //---------------------------------------------------
   return (
     <div className={s.container}>
-      <div className={s.w_img}>
+      <div className={isLoading ? s.w_img_loading : s.w_img }>
         {isLoading ? (
-          <div>Loading...</div>
+          <div className={s.lds_ellipsis}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
         ) : (
           <img
             src={!!src_bucket ? src_bucket : image}

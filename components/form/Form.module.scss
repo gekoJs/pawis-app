@@ -17,12 +17,7 @@
   transform: translateY(-100%);
 
   &::-webkit-scrollbar {
-    width: 4px;
-    background-color: var(--color8);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--color1);
+    display: none;
   }
 }
 .container_open {

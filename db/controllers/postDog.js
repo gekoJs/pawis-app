@@ -1,6 +1,6 @@
 const { Dog, Temperament, User } = require("../index");
 
-const postDog = async (
+let postDog = async (
   breed,
   image,
   height_min,
@@ -30,7 +30,7 @@ const postDog = async (
       lifeTime_max,
     },
   });
-  
+
   const dogTemperaments = await Promise.all(
     temperament?.map(async (temp) => {
       const [temperament, created] = await Temperament.findOrCreate({
@@ -46,7 +46,7 @@ const postDog = async (
     },
   });
 
-  await user.addDog(newDog) 
+  await user.addDog(newDog);
   await newDog.addTemperaments(dogTemperaments);
 
   return { newDog, createdDog };
