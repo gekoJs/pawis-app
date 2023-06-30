@@ -1,13 +1,17 @@
 "use client";
 import s from "./Form.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { handleFormErrors } from "@/helpers/handleFormErrors";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { DOGS, TEMPERAMENTS } from "@/helpers/react_query/ks";
-import { useRouter } from "next/navigation";
+import { TEMPERAMENTS } from "@/helpers/react_query/ks";
+import { usePathname } from "next/navigation";
+import {
+  type_formComponentInput,
+  type_formComponentInputError,
+} from "@/utils/types/types";
+import { SetStateAction, Dispatch } from "react";
 import { useSession } from "next-auth/react";
-import { type_DogsData_rq } from "@/utils/types/types";
 //--------------------------------
 
 interface type_inpState {
@@ -22,59 +26,43 @@ interface type_inpState {
   Temperaments: string[];
 }
 
-interface type_inpStateErr {
-  Breed?: string;
-  Height_min?: string;
-  Height_max?: string;
-  Weight_min?: string;
-  Weight_max?: string;
-  LifeTime_min?: string;
-  LifeTime_max?: string;
-  Image?: string;
-  Temperaments?: string;
+interface type_component {
+  type: string;
+  FormOpen: boolean;
+  setFormOpen: Dispatch<SetStateAction<boolean>>;
+  inpValue: type_formComponentInput;
+  setInpValue: Dispatch<SetStateAction<type_formComponentInput>>;
+  errors: type_formComponentInputError;
+  setErrors: Dispatch<SetStateAction<type_formComponentInputError>>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
+  isError: boolean;
+  success: boolean;
 }
 
 export default function Form({
   type,
   FormOpen,
   setFormOpen,
-}: {
-  type: string;
-  FormOpen: boolean;
-  setFormOpen: any;
-}) {
-  const queryClient = useQueryClient();
-  const [inpValue, setInpValue] = useState<type_inpState>({
-    Breed: "",
-    Height_min: "",
-    Height_max: "",
-    Weight_min: "",
-    Weight_max: "",
-    LifeTime_min: "",
-    LifeTime_max: "",
-    Image: "",
-    Temperaments: [],
-  });
-  const [errors, setErrors] = useState<type_inpStateErr>({
-    Breed: "",
-    Height_min: "",
-    Height_max: "",
-    Weight_min: "",
-    Weight_max: "",
-    LifeTime_min: "",
-    LifeTime_max: "",
-    Image: "",
-    Temperaments: "",
-  });
-  const [success, setSuccess] = useState(false);
+  inpValue,
+  setInpValue,
+  handleSubmit,
+  errors,
+  setErrors,
+  isLoading,
+  isError,
+  success,
+}: type_component) {
+  const pathname = usePathname();
+  const { data: session }: any = useSession();
   const inputs = [
     {
-      name: "Breed",
+      name: "breed",
       input: [{ type: "text", placeHolder: "Whats the breed's dog" }],
       className: s.input,
     },
     {
-      name: "Height",
+      name: "height",
       input: [
         { type: "number", placeHolder: "min" },
         { type: "number", placeHolder: "max" },
@@ -82,7 +70,7 @@ export default function Form({
       className: s.inputMinMax,
     },
     {
-      name: "Weight",
+      name: "weight",
       input: [
         { type: "number", placeHolder: "min" },
         { type: "number", placeHolder: "max" },
@@ -90,7 +78,7 @@ export default function Form({
       className: s.inputMinMax,
     },
     {
-      name: "Life Time",
+      name: "life Time",
       input: [
         { type: "number", placeHolder: "min" },
         { type: "number", placeHolder: "max" },
@@ -98,12 +86,11 @@ export default function Form({
       className: s.inputMinMax,
     },
     {
-      name: "Image",
+      name: "image",
       input: [{ type: "text", placeHolder: "Image" }],
       className: s.input,
     },
   ];
-
   const {
     data: temperamentsData,
     isLoading: isLoadingTemperaments,
@@ -113,18 +100,12 @@ export default function Form({
     queryFn: async () => await axios.get("/api/temperaments"),
   });
 
-  const router = useRouter();
-
-  //AUTH---------------------------------
-  const { data: session } = useSession();
-  //AUTH---------------------------------
-
-  //CHANGE HANDLERS----------------------
   const handleChange = (e: any) => {
-    setInpValue((prev) => {
+    setInpValue((prev: any) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+
   useEffect(() => {
     if (Object.values(inpValue).some((e) => !!e.length)) {
       setErrors(handleFormErrors(inpValue));
@@ -132,88 +113,48 @@ export default function Form({
   }, [inpValue]);
 
   const handleChangeSelect = (e: any) => {
-    if (inpValue.Temperaments.includes(e.target.value)) return;
-    setInpValue((prev) => {
-      return { ...prev, Temperaments: [...prev.Temperaments, e.target.value] };
+    if (inpValue.temperament.includes(e.target.value)) return;
+    setInpValue((prev: any) => {
+      return { ...prev, temperament: [...prev.temperament, e.target.value] };
     });
   };
   const handleEraseTemp = (e: any) => {
-    const filteredTemps = inpValue.Temperaments.filter(
+    e.preventDefault();
+    const filteredTemps = inpValue.temperament.filter(
       (temp) => temp !== e.target.value
     );
-    setInpValue((prev) => {
+    console.log("e.target.value", e.target.value);
+    console.log("inpValue.temperament", inpValue.temperament);
+
+    setInpValue((prev: any) => {
       return {
         ...prev,
-        Temperaments: filteredTemps,
+        temperament: filteredTemps,
       };
     });
   };
-  //CHANGE HANDLERS----------------------
-
-  //POST HANDLER-------------------------
-  const dataToPost = {
-    breed: inpValue.Breed,
-    height_min: parseInt(inpValue.Height_min),
-    height_max: parseInt(inpValue.Height_max),
-    weight_min: parseInt(inpValue.Weight_min),
-    weight_max: parseInt(inpValue.Weight_max),
-    lifeTime_min: parseInt(inpValue.LifeTime_min),
-    lifeTime_max: parseInt(inpValue.LifeTime_max),
-    image: inpValue.Image,
-    temperament: inpValue.Temperaments,
-    userId: session?.user?.email,
-  };
-  const addDogData = useMutation({
-    mutationFn: async () => await axios.post("/api/dogs", dataToPost),
-    onSuccess: (data) => {
-      setInpValue({
-        Breed: "",
-        Height_min: "",
-        Height_max: "",
-        Weight_min: "",
-        Weight_max: "",
-        LifeTime_min: "",
-        LifeTime_max: "",
-        Image: "",
-        Temperaments: [],
-      });
-      setErrors({
-        Breed: "",
-        Height_min: "",
-        Height_max: "",
-        Weight_min: "",
-        Weight_max: "",
-        LifeTime_min: "",
-        LifeTime_max: "",
-        Image: "",
-        Temperaments: "",
-      });
-      queryClient.invalidateQueries([DOGS], { exact: true });
-      router.push(`/create/${data?.data.newDog.id}`);
-    },
-  });
-  let { isLoading, isError, isSuccess, error, data } = addDogData;
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    setErrors(handleFormErrors(inpValue));
-    if (!!!Object.values(errors).length && !!!isSuccess) {
-      addDogData.mutate();
-    }
-  };
-  //POST HANDLER-------------------------
-
-  useEffect(() => {
-    setSuccess(isSuccess);
-  }, [isSuccess]);
-  useEffect(() => {
-    setSuccess(false);
-  }, [FormOpen]);
-
   return (
     <div
       className={FormOpen ? `${s.container} ${s.container_open}` : s.container}
     >
-      <div className={s.close_button} onClick={() => setFormOpen(false)}>
+      <div
+        className={s.close_button}
+        onClick={() => {
+          setFormOpen(false);
+          if (pathname === `/profile/${session?.user?.id}`)
+            setInpValue({
+              breed: "",
+              height_min: "",
+              height_max: "",
+              weight_min: "",
+              weight_max: "",
+              lifeTime_min: "",
+              lifeTime_max: "",
+              image: "",
+              temperament: [],
+            });
+        }}
+      >
         <svg viewBox="0 -960 960 960">
           <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
         </svg>
@@ -223,7 +164,9 @@ export default function Form({
         <form className={s.form} onSubmit={(e) => handleSubmit(e)}>
           {inputs.map((e, i) => (
             <div key={i}>
-              <label className={s.label}>{e.name}</label>
+              <label className={s.label}>
+                {e.name.charAt(0).toUpperCase() + e.name.slice(1)}
+              </label>
               <div className={s.wrapper_input}>
                 {e.input.map((inp, i) => (
                   <div key={i} style={{ width: "100%" }}>
@@ -234,8 +177,8 @@ export default function Form({
                           e.input.length > 1
                             ? (`${e.name.replace(" ", "")}_${
                                 inp.placeHolder
-                              }` as keyof type_inpState)
-                            : (e.name as keyof type_inpState)
+                              }` as keyof type_formComponentInput)
+                            : (e.name as keyof type_formComponentInput)
                         ]
                       }
                       name={
@@ -244,15 +187,15 @@ export default function Form({
                           : e.name
                       }
                       onChange={(e) => handleChange(e)}
-                      placeholder={inp.placeHolder}
+                      placeholder={isLoading ? "Loading..." : inp.placeHolder}
                       className={`${e.className} ${s.all_input}`}
                     />
                     {errors[
                       e.input.length > 1
                         ? (`${e.name.replace(" ", "")}_${
                             inp.placeHolder
-                          }` as keyof type_inpStateErr)
-                        : (e.name as keyof type_inpStateErr)
+                          }` as keyof type_formComponentInputError)
+                        : (e.name as keyof type_formComponentInputError)
                     ] && (
                       <span className={s.error}>
                         {
@@ -260,8 +203,8 @@ export default function Form({
                             e.input.length > 1
                               ? (`${e.name.replace(" ", "")}_${
                                   inp.placeHolder
-                                }` as keyof type_inpStateErr)
-                              : (e.name as keyof type_inpStateErr)
+                                }` as keyof type_formComponentInputError)
+                              : (e.name as keyof type_formComponentInputError)
                           ]
                         }
                       </span>
@@ -284,11 +227,11 @@ export default function Form({
                 </option>
               ))}
             </select>
-            {errors.Temperaments && (
-              <span className={s.error}>{errors.Temperaments}</span>
+            {errors.temperament && (
+              <span className={s.error}>{errors.temperament}</span>
             )}
             <div className={s.wrapper_temperaments_to_search}>
-              {inpValue.Temperaments.map((e, i) => (
+              {inpValue.temperament.map((e, i) => (
                 <button
                   key={i}
                   className={s.erase_temp}
@@ -313,7 +256,7 @@ export default function Form({
             }
             type="submit"
           >
-            {isLoading ? "Loading..." : success ? "Dog Created" : type}
+            {isLoading ? "Loading..." : success ? `Dog ${type}ed` : type}
           </button>
           {isError && (
             <span className={s.error} style={{ textAlign: "center" }}>

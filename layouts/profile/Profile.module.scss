@@ -1,11 +1,40 @@
-.container{
-    font-family: var(--font_sec);
+.container {
+  width: 100%;
+  font-family: var(--font_sec);
+  min-height: 100vh;
+  max-width: 1440px;
+  margin: auto;
 }
 
-.w_user_info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
+.w_user_info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+    padding: 0 1em;
+}
+
+.w_dogs_by {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+    padding: 0 1em;
+}
+.name,
+.email,
+.dog_by {
+  color: var(--color1);
+  font-size: 1.4em;
+}
+.nothingToSee {
+  width: 100%;
+  height: 6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p{
+      font-weight: bold;
+      color: var(--color1_op);
+  }
 }

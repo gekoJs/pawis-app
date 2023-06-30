@@ -1,20 +1,29 @@
 "use client";
 
 import style from "./Nav.module.scss";
+import { Form } from "@/components";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Form } from "@/components";
 import { usePathname, useRouter } from "next/navigation";
-import { useSession, signIn, signOut, getProviders } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
-
-import { LiteralUnion, ClientSafeProvider } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
-import axios from "axios";
-import { USER } from "@/helpers/react_query/ks";
-
-import { type_user } from "@/utils/types/types";
+import {
+  useSession,
+  signIn,
+  signOut,
+  getProviders,
+  LiteralUnion,
+  ClientSafeProvider,
+} from "next-auth/react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { USER, DOGS } from "@/helpers/react_query/ks";
+import {
+  type_user,
+  type_formComponentInput,
+  type_formComponentInputError,
+} from "@/utils/types/types";
+import { handleFormErrors } from "@/helpers/handleFormErrors";
 
 //------------------------------------------
 
@@ -24,7 +33,7 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   const [userData, setUserData] = useState<type_user>({});
   const pathname = usePathname();
   const router = useRouter();
-
+  const queryClient = useQueryClient()
   //HANDLERS---------------------------
   const handleChange = (e: any) => {
     setSearchValue(e.target.value);
@@ -82,7 +91,80 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     }
   }, [session, isSuccess]);
 
-  
+  //CREATE DOG--------------------------------------------
+  const [success, setSuccess] = useState(false);
+
+  const [inpValue, setInpValue] = useState<type_formComponentInput>({
+    breed: "",
+    height_min: "",
+    height_max: "",
+    weight_min: "",
+    weight_max: "",
+    lifeTime_min: "",
+    lifeTime_max: "",
+    image: "",
+    temperament: [],
+  });
+
+  const [errors, setErrors] = useState<type_formComponentInputError>({
+    breed: "",
+  });
+
+  const dataToPost = {
+    breed: inpValue.breed,
+    height_min: parseInt(inpValue.height_min),
+    height_max: parseInt(inpValue.height_max),
+    weight_min: parseInt(inpValue.weight_min),
+    weight_max: parseInt(inpValue.weight_max),
+    lifeTime_min: parseInt(inpValue.lifeTime_min),
+    lifeTime_max: parseInt(inpValue.lifeTime_max),
+    image: inpValue.image,
+    temperament: inpValue.temperament,
+    userId: session?.user?.email,
+  };
+
+  const addDogData = useMutation({
+    mutationFn: async () => await axios.post("/api/dogs", dataToPost),
+    onSuccess: (data) => {
+      setInpValue({
+        breed: "",
+        height_min: "",
+        height_max: "",
+        weight_min: "",
+        weight_max: "",
+        lifeTime_min: "",
+        lifeTime_max: "",
+        image: "",
+        temperament: [],
+      });
+      setErrors({
+        breed: "",
+      });
+      queryClient.invalidateQueries([DOGS], { exact: true });
+      queryClient.invalidateQueries([USER]);
+      router.push(`/create/${data?.data.newDog.id}`);
+    },
+  });
+
+  let {
+    isLoading,
+    isError: mutateError,
+    isSuccess: mutateSuccess,
+  } = addDogData;
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    setErrors(handleFormErrors(inpValue));
+    if (!!!Object.values(errors).length && !!!mutateSuccess) {
+      addDogData.mutate();
+    }
+  };
+
+  useEffect(() => {
+    setSuccess(mutateSuccess);
+  }, [mutateSuccess]);
+  //CREATE DOG--------------------------------------------
   return (
     <>
       <nav className={style.container}>
@@ -155,7 +237,19 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
         </div>
       </nav>
 
-      <Form type="Create" FormOpen={FormOpen} setFormOpen={setFormOpen} />
+      <Form
+        type="Create"
+        FormOpen={FormOpen}
+        setFormOpen={setFormOpen}
+        inpValue={inpValue}
+        setInpValue={setInpValue}
+        errors={errors}
+        setErrors={setErrors}
+        handleSubmit={handleSubmit}
+        isLoading={isLoading}
+        isError={mutateError}
+        success={success}
+      />
     </>
   );
 }

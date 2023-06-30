@@ -61,3 +61,35 @@ export interface DataEntity {
 }
 
 //--------------------------------
+export interface type_formComponentInput {
+  breed: string;
+  height_min: string;
+  height_max: string;
+  weight_min: string;
+  weight_max: string;
+  lifeTime_min: string;
+  lifeTime_max: string;
+  image: string;
+  temperament: string[];
+  // Breed: string;
+  // Height_min: string;
+  // Height_max: string;
+  // Weight_min: string;
+  // Weight_max: string;
+  // LifeTime_min: string;
+  // LifeTime_max: string;
+  // Image: string;
+  // Temperaments: string[];
+}
+
+export interface type_formComponentInputError {
+  breed?: string;
+  height_min?: string;
+  height_max?: string;
+  weight_min?: string;
+  weight_max?: string;
+  lifeTime_min?: string;
+  lifeTime_max?: string;
+  image?: string;
+  temperament?: string;
+}

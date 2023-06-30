@@ -8,7 +8,12 @@ import axios from "axios";
 
 /*---------------------------------------------*/
 
-export default function AllCards({ dogs, loading }: any) {
+export default function AllCards({
+  dogs,
+  loading,
+  setFormOpen,
+  setIdDog,
+}: any) {
   const { data: session }: any = useSession();
 
   const { data: allLikes, refetch } = useQuery({
@@ -27,7 +32,7 @@ export default function AllCards({ dogs, loading }: any) {
             <Link href={`/dogs/${e.id}`} key={e.id} className={s.link}>
               <Card
                 id_dog={e.id}
-                id_user={session?.user?.id}
+                id_user={e.UserId}
                 img={e.image}
                 breed={e.breed}
                 temperaments={e.Temperaments}
@@ -41,6 +46,8 @@ export default function AllCards({ dogs, loading }: any) {
                 likesLength={allLikes?.data.filter(
                   (j: any) => j.DogId === e.id.toString()
                 )}
+                setFormOpen={setFormOpen}
+                setIdDog={setIdDog}
               />
             </Link>
           ))}

@@ -15,10 +15,9 @@ const handler = NextAuth({
         where: { email: session.user.email },
       });
       session.user.id = sessionUser.id.toString();
-    return session
+      return session;
     },
     async signIn({ profile }) {
-      console.log("profile¡¡¡¡¡¡", profile);
       try {
         await connectToDB();
 

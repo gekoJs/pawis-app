@@ -6,10 +6,11 @@
   font-family: var(--font_sec);
   cursor: pointer;
   border-radius: 0.8em;
-  transition: transform 0.2s ease;
   background: var(--color1);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: box-shadow 0.2s ease;
   &:hover {
-    transform: translateY(-4px);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
 }
 .wrapper_img {
@@ -79,4 +80,36 @@
   color: var(--color3);
   font-size: 0.8em;
   font-family: var(--font_sec);
+}
+
+.user_options {
+  padding: 1em 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}
+
+.edit,
+.delete {
+  border-radius: 0.8em;
+  padding: 0.4em 0.8em;
+  font-family: var(--font_sec);
+  font-weight: bold;
+  transition: transform 0.2s ease;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.edit {
+  background-color: #7fdb68;
+  color: #daffd1;
+}
+.delete {
+  background-color: #db6868;
+  color: #ffd1d1;
 }
