@@ -1,0 +1,57 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color1_op);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  font-family: var(--font_sec);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .2s ease ;
+}
+.w_content {
+  background-color: var(--color8);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  border-radius: 1em;
+}
+.init_text {
+  color: var(--color1);
+  font-size: 1.4em;
+}
+
+.dog_to_delete {
+  color: var(--color4);
+  font-size: 2.2em;
+}
+
+.w_btns {
+  display: flex;
+  gap: 2em;
+}
+.btn {
+  border-radius: 0.8em;
+  font-family: var(--font_sec);
+  color: var(--color8);
+  font-weight: bold;
+  padding: 1em 2em;
+  border: none;
+  outline: none;
+  background-color: var(--color4);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: transform 0.1s ease;
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+.btn_no {
+  background-color: #91db6f;
+}
