@@ -1,14 +1,80 @@
 .container {
   width: 100%;
   max-width: 1440px;
+  height: 5em;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1em;
   padding: 1em 2em;
+}
+.imgWrapper {
+  width: 3em;
+  min-width: 3em;
+  height: 3em;
+  background: var(--color5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+}
+.form {
+  width: 100%;
+  max-width: 400px;
+  height: 3em;
+}
+.input {
+  width: 100%;
+  font-size: 1em;
+  padding: 0.91em 1.5em;
+  border-radius: 1em;
+  background: var(--color1);
+  color: var(--color8);
+  outline: none;
+  font-family: var(--font_sec);
+  border: none;
+}
+.buttonsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 3em;
+  gap: 0.5em;
+  width: 20.2em;
+}
+.button {
+  border-radius: 1em;
+  font-size: 1em;
+  font-family: var(--font_sec);
+  background-color: var(--color4);
+  color: var(--color8);
+  font-weight: 600;
+  width: 100%;
+  max-width: 8em;
+  min-width: 7em;
+  height: 3em;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.button_create {
+  background-color: var(--color5);
+  // border: 2px solid var(--color4);
+  color: var(--color8);
+}
+.button:nth-child(1) {
+}
+.hover {
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: translateY(-4px);
+  }
 }
 .perfil_img_link {
   width: 50px;
+  min-width: 50px;
   height: 50px;
   position: relative;
   transition: transform 0.2s ease;
@@ -21,58 +87,76 @@
   width: 100%;
   height: 100%;
 }
-.imgWrapper {
-  width: 50px;
-  height: 50px;
-  background: var(--color5);
+
+.burguer_menu {
+  display: none;
+  width: 2.4em;
+  height: 2.8em;
+  flex-direction: column;
+  justify-content: space-around;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+.burguer_line {
+  width: 100%;
+  height: 0.4em;
+  background-color: var(--color1);
+  border-radius: 1em;
+  transition: all 0.2s ease;
+  transition-property: opacity, transform;
+}
+
+.burguer_close {
+  background: var(--color4);
+  transition: all 0.2s ease;
+  transition-property: opacity, transform, background;
+}
+
+.burguer_close:nth-child(2) {
+  opacity: 0;
+}
+.burguer_close:nth-child(1) {
+  transform: translateY(240%) rotate(45deg);
+}
+.burguer_close:nth-child(3) {
+  transform: translateY(-240%) rotate(-45deg);
+}
+
+@media screen and (max-width: 650px) {
+  .buttonsWrapper {
+    display: none;
+  }
+  .burguer_menu {
+    display: flex;
+  }
+}
+
+//responsive -------------------------------------------
+.container_resp {
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  background-color: var(--color1_op);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.w_content_resp {
+  width: 80%;
+  min-width: 18.75em;
+  height: 100%;
+  background-color: var(--color1);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 100px;
+  gap: 2em;
 }
-.form {
-  width: 100%;
-  max-width: 400px;
-}
-.input {
-  width: 100%;
-  font-size: 1em;
-  padding: 1em 2em;
-  border-radius: 1em;
-  background: var(--color1);
-  color: var(--color8);
-  outline: none;
-  font-family: var(--font_sec);
-  border: none;
-}
-.buttonsWrapper {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-}
-.button {
-  border-radius: 1em;
-  font-size: 1em;
-  font-family: var(--font_sec);
-  background: var(--color4);
-  color: var(--color8);
-  font-weight: 600;
-  padding: 1em;
-  outline: none;
-  border: none;
-  cursor: pointer;
-}
-.button_create{
-    background-color: var(--color8);
-    border: 2px solid var(--color4);
-    color: var(--color4);
-}
-.button:nth-child(2) {
-  background-color: var(--color5);
-}
-.hover {
-  transition: transform 0.2s ease;
-  &:hover {
-    transform: translateY(-4px);
-  }
+.perfil_img_link_resp {
+  width: 8em;
+  height: 8em;
+  position: relative;
+  display: inline-block;
 }

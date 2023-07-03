@@ -1,7 +1,7 @@
 "use client";
-import axios from "axios"
+import axios from "axios";
 import style from "./Landing.module.scss";
-import landing_anim from "../../public/assets/animations/landing_anim.json";
+import landing_anim from "../../public/assets/animations/pawis.json";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -27,7 +27,7 @@ export default function Landing() {
         dispatch(loader_active_fn(false)))
       : null;
   }, [lottieRef.current?.animationLoaded]);
-  
+
   return (
     <div className={style.container}>
       {Object.values(loading).some((e) => e === true) && <Loader />}
@@ -55,7 +55,10 @@ export default function Landing() {
         </div>
 
         <div className={style.animation}>
-          <Lottie lottieRef={lottieRef} animationData={landing_anim} />
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={landing_anim}
+          />
         </div>
       </div>
     </div>
