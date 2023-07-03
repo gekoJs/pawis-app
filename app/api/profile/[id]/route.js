@@ -16,7 +16,7 @@ const GET = async (req, { params }) => {
     const userInfoDB = await User.findByPk(id);
     const dogCreatedDBInfo = await Dog.findAll({
       where: { UserId: id },
-      include: { model: Temperament },
+      include: { all: true },
     });
 
     const DogsCreatedByUser = dogCreatedDBInfo?.map((e) => {

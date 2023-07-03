@@ -5,6 +5,8 @@ import s from "./AllCards.module.scss";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useState } from "react";
+import DeleteModal from "../deleteModal/DeleteModal";
 
 /*---------------------------------------------*/
 
@@ -14,8 +16,17 @@ export default function AllCards({
   setFormOpen,
   setIdDog,
 }: any) {
+  //--------------------------------------
+
   const { data: session }: any = useSession();
 
+  const [DogToDelete, setDogToDelete] = useState({
+    id: "",
+    breed: "",
+    open: false,
+    success: false,
+  });
+  //--------------------------------------
   const { data: allLikes, refetch } = useQuery({
     queryFn: async () => await axios.get("/api/dogs/like"),
     queryKey: ["LIKES", session?.user?.id],
@@ -24,6 +35,7 @@ export default function AllCards({
   const userLikes = allLikes?.data.filter(
     (e: any) => e.UserId === session?.user?.id
   );
+
   return (
     <div className={s.container}>
       {loading
@@ -33,6 +45,7 @@ export default function AllCards({
               <Card
                 id_dog={e.id}
                 id_user={e.UserId}
+                user={e.User}
                 img={e.image}
                 breed={e.breed}
                 temperaments={e.Temperaments}
@@ -48,9 +61,11 @@ export default function AllCards({
                 )}
                 setFormOpen={setFormOpen}
                 setIdDog={setIdDog}
+                setDogToDelete={setDogToDelete}
               />
             </Link>
           ))}
+      <DeleteModal DogToDelete={DogToDelete} setDogToDelete={setDogToDelete} />
     </div>
   );
 }

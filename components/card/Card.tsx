@@ -7,8 +7,16 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction } from "react";
 
+interface type_user {
+  email: string;
+  id: string;
+  image: string;
+  name: string;
+}
+
 interface type_card {
   id_user: string;
+  user: type_user;
   id_dog: string | number;
   img: string;
   breed: string;
@@ -19,6 +27,14 @@ interface type_card {
   likesLength: string[];
   setFormOpen: Dispatch<SetStateAction<boolean>>;
   setIdDog: Dispatch<SetStateAction<string | number>>;
+  setDogToDelete: Dispatch<
+    SetStateAction<{
+      id: string;
+      breed: string;
+      open: boolean;
+      success: boolean;
+    }>
+  >;
 }
 
 export default function Card({
@@ -28,14 +44,20 @@ export default function Card({
   weight,
   id_dog,
   id_user,
+  user,
   like,
   refetch,
   likesLength,
   setFormOpen,
   setIdDog,
+  setDogToDelete,
 }: type_card) {
+  //---------------------------
   const pathname = usePathname();
   const { data: session }: any = useSession();
+  //---------------------------
+  // const [] = useState()
+
   const likePOST = useMutation({
     mutationFn: async () =>
       await axios.post("/api/dogs/like", { id_dog, id_user }),
@@ -44,11 +66,17 @@ export default function Card({
     },
   });
 
-  const handleCLick = async (e: any) => {
+  const handleCLick = async (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>
+  ) => {
     e.preventDefault();
     if (id_user) {
       likePOST.mutate();
     }
+  };
+
+  const handleDeleteDog = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
   };
   return (
     <div className={s.container}>
@@ -82,6 +110,7 @@ export default function Card({
             <span className={s.allLikes}>{likesLength?.length}</span>
           </div>
         </div>
+        {user && <p className={s.created_by}>Created By: {user?.name}</p>}
         <ul className={s.wrapper_list}>
           {temperaments?.map((e, i) => (
             <li key={i}>
@@ -89,8 +118,8 @@ export default function Card({
               {i !== temperaments.length - 1 && "|"}
             </li>
           ))}
+          <p className={s.weight}>Weight: {weight}Kg</p>
         </ul>
-        <p className={s.weight}>Weight: {weight}Kg</p>
       </div>
       {pathname === `/profile/${id_user}` && session?.user.id === id_user && (
         <div className={s.user_options}>
@@ -104,7 +133,20 @@ export default function Card({
           >
             Edit
           </button>
-          <button className={s.delete}>Delete</button>
+          <button
+            className={s.delete}
+            onClick={(e) => {
+              handleDeleteDog(e);
+              setDogToDelete({
+                id: id_dog.toString(),
+                breed: breed,
+                open: true,
+                success: false,
+              });
+            }}
+          >
+            Delete
+          </button>
         </div>
       )}
     </div>

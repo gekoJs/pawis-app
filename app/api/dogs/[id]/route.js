@@ -69,4 +69,20 @@ const PUT = async (req, { params }) => {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };
-module.exports = { GET, PUT };
+
+const DELETE = async (req, { params }) => {
+  const { id } = params;
+  try {
+    await connectToDB();
+    const dogToDelete = await Dog.findByPk(id);
+    if (dogToDelete) {
+      dogToDelete.destroy();
+    } else {
+      throw Error("Couldnt find any dog");
+    }
+    return NextResponse.json("done", { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+};
+module.exports = { GET, PUT, DELETE };

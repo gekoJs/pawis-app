@@ -1,10 +1,11 @@
 const axios = require("axios");
-const { Dog, Temperament } = require("../../db/index");
+const { Dog, Temperament, User } = require("../../db/index");
 
 const getAllDogs = async (query) => {
   try {
     const dbData = await Dog.findAll({
-      include: { model: Temperament },
+      // include: { all: true },
+      include: [{ model: Temperament }, { model: User }],
     }).catch((err) => console.log(err.message));
     const dbInfo = dbData?.map((e) => {
       return {
