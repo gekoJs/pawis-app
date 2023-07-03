@@ -118,8 +118,8 @@ export default function Card({
               {i !== temperaments.length - 1 && "|"}
             </li>
           ))}
-          <p className={s.weight}>Weight: {weight}Kg</p>
         </ul>
+        <p className={s.weight}>Weight: {weight}Kg</p>
       </div>
       {pathname === `/profile/${id_user}` && session?.user.id === id_user && (
         <div className={s.user_options}>

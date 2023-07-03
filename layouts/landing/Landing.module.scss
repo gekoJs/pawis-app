@@ -48,12 +48,11 @@
     font-size: 1.4em;
     text-decoration: none;
     background-color: var(--color5);
-    color: var(--color1);
+    color: var(--color8);
     transition: all 0.2s ease;
     transition-property: transform, color, background;
     &:hover {
       transform: translateY(-4px);
-      color: var(--color6);
       background: var(--color4);
     }
   }
@@ -65,7 +64,7 @@
   min-width: 20em;
   overflow: hidden;
   div {
-    transform: scale(1.2) translateY(-1em) translateX(2em);
+    transform: scale(1.2) translateX(2em);
   }
 }
 
@@ -95,7 +94,7 @@
   }
   .animation {
     div {
-      transform: scale(1.2) translateY(-1em);
+      transform: scale(1.2);
     }
   }
   .flex_wrapper {

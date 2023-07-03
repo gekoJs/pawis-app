@@ -2,7 +2,7 @@
 
 import style from "./Nav.module.scss";
 import { Form } from "@/components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,9 +31,10 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   const [searchValue, setSearchValue] = useState("");
   const [FormOpen, setFormOpen] = useState(false);
   const [userData, setUserData] = useState<type_user>({});
+  const [BurguerMenuOpen, setBurguerMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   //HANDLERS---------------------------
   const handleChange = (e: any) => {
     setSearchValue(e.target.value);
@@ -165,6 +166,13 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     setSuccess(mutateSuccess);
   }, [mutateSuccess]);
   //CREATE DOG--------------------------------------------
+  const body = document.getElementsByTagName("body")[0];
+  if (BurguerMenuOpen) {
+    body.style.overflow = "hidden";
+  } else {
+    body.style.overflow = "auto";
+  }
+
   return (
     <>
       <nav className={style.container}>
@@ -235,8 +243,32 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
             </>
           )}
         </div>
-      </nav>
 
+        <div
+          className={style.burguer_menu}
+          onClick={() => setBurguerMenuOpen((prev) => !prev)}
+        >
+          {Array.from({ length: 3 }, () => (
+            <div
+              className={
+                BurguerMenuOpen
+                  ? `${style.burguer_line} ${style.burguer_close}`
+                  : style.burguer_line
+              }
+            />
+          ))}
+        </div>
+      </nav>
+      {BurguerMenuOpen && (
+        <MenuResponsive
+          session={session}
+          userData={userData}
+          setFormOpen={setFormOpen}
+          signOut={signOut}
+          userInfoDBLoading={userInfoDBLoading}
+          setBurguerMenuOpen={setBurguerMenuOpen}
+        />
+      )}
       <Form
         type="Create"
         FormOpen={FormOpen}
@@ -251,5 +283,77 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
         success={success}
       />
     </>
+  );
+}
+
+interface User {
+  name: string;
+  email: string;
+  image: string;
+  id?: string;
+}
+interface type_session {
+  user?: User;
+  expires?: string;
+}
+
+export function MenuResponsive({
+  session,
+  userData,
+  setFormOpen,
+  signOut,
+  userInfoDBLoading,
+  setBurguerMenuOpen,
+}: {
+  session: type_session;
+  userData: type_user;
+  setFormOpen: Dispatch<SetStateAction<boolean>>;
+  setBurguerMenuOpen: Dispatch<SetStateAction<boolean>>;
+  signOut: any;
+  userInfoDBLoading: any;
+}) {
+  return (
+    <div className={style.container_resp}>
+      <div className={style.w_content_resp}>
+        {session?.user ? (
+          <>
+            {userInfoDBLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <Link
+                href={`/profile/${session?.user?.id}`}
+                className={style.perfil_img_link_resp}
+              >
+                <img
+                  src={userData?.user?.image}
+                  className={style.perfil_img}
+                  alt="profile"
+                />
+              </Link>
+            )}
+            <button
+              className={`${style.button} ${style.hover}`}
+              onClick={() => {
+                signOut();
+                setBurguerMenuOpen(false);
+              }}
+            >
+              Signt Out
+            </button>
+            <button
+              className={`${style.button} ${style.button_create} ${style.hover}`}
+              onClick={() => {
+                setFormOpen(true);
+                setBurguerMenuOpen(false);
+              }}
+            >
+              Create Dog
+            </button>
+          </>
+        ) : (
+          <button>Sign In</button>
+        )}
+      </div>
+    </div>
   );
 }
