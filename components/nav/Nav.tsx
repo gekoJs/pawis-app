@@ -166,12 +166,15 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     setSuccess(mutateSuccess);
   }, [mutateSuccess]);
   //CREATE DOG--------------------------------------------
-  const body = document.getElementsByTagName("body")[0];
-  if (BurguerMenuOpen) {
-    body.style.overflow = "hidden";
-  } else {
-    body.style.overflow = "auto";
-  }
+
+  useEffect(() => {
+    const body = document.getElementsByTagName("body")[0];
+    if (BurguerMenuOpen) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = "auto";
+    }
+  }, [BurguerMenuOpen]);
 
   return (
     <>
