@@ -271,6 +271,8 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
           signOut={signOut}
           userInfoDBLoading={userInfoDBLoading}
           setBurguerMenuOpen={setBurguerMenuOpen}
+          providers={providers}
+          signIn={signIn}
         />
       )}
       <Form
@@ -306,15 +308,22 @@ export function MenuResponsive({
   userData,
   setFormOpen,
   signOut,
+  signIn,
   userInfoDBLoading,
   setBurguerMenuOpen,
+  providers,
 }: {
   session: type_session;
   userData: type_user;
   setFormOpen: Dispatch<SetStateAction<boolean>>;
   setBurguerMenuOpen: Dispatch<SetStateAction<boolean>>;
   signOut: any;
+  signIn: any;
   userInfoDBLoading: any;
+  providers: Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null;
 }) {
   return (
     <div className={style.container_resp}>
@@ -355,11 +364,18 @@ export function MenuResponsive({
             </button>
           </>
         ) : (
-          <button
-            className={`${style.button} ${style.button_create} ${style.hover}`}
-          >
-            Sign In
-          </button>
+          <>
+            {providers &&
+              Object.values(providers).map((provider, i) => (
+                <button
+                  key={i}
+                  className={`${style.button} ${style.button_create} ${style.hover}`}
+                  onClick={() => signIn(provider.id)}
+                >
+                  Sign In
+                </button>
+              ))}
+          </>
         )}
       </div>
     </div>
