@@ -123,7 +123,7 @@ export default function Card({
         </ul>
         <p className={s.weight}>Weight: {weight}Kg</p>
       </div>
-      {pathname === `/profile/${id_user}` && session?.user.id === id_user && (
+      {pathname === `/profile/${id_user}` && session?.user.id === user?.id && (
         <div className={s.user_options}>
           <button
             className={s.edit}

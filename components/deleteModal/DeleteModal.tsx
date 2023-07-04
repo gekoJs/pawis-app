@@ -87,7 +87,12 @@ export default function DeleteModal({
 
         <div className={s.w_btns}>
           {dogMutate.isLoading ? (
-            <p>Loading...</p>
+          <div className={s.lds_ellipsis}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           ) : DogToDelete.success ? (
             <p>dog deleted succedfully</p>
           ) : (
