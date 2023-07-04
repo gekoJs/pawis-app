@@ -55,15 +55,15 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   //HANDLERS---------------------------
 
   //AUTH------------------------------------------
-  const { data: session }:any = useSession();
+  const { data: session }: any = useSession();
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   > | null>(null);
 
   useEffect(() => {
-    if (!session){
-      router.push("/dogs")
+    if (!session) {
+      router.push("/dogs");
     }
 
     const setUpProviders = async () => {
@@ -71,7 +71,6 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
       setProviders(response);
     };
     setUpProviders();
-
   }, []);
 
   //AUTH------------------------------------------
@@ -269,18 +268,18 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
           ))}
         </div>
       </nav>
-      {BurguerMenuOpen && (
-        <MenuResponsive
-          session={session}
-          userData={userData}
-          setFormOpen={setFormOpen}
-          signOut={signOut}
-          userInfoDBLoading={userInfoDBLoading}
-          setBurguerMenuOpen={setBurguerMenuOpen}
-          providers={providers}
-          signIn={signIn}
-        />
-      )}
+      <MenuResponsive
+        session={session}
+        userData={userData}
+        setFormOpen={setFormOpen}
+        signOut={signOut}
+        userInfoDBLoading={userInfoDBLoading}
+        setBurguerMenuOpen={setBurguerMenuOpen}
+        providers={providers}
+        signIn={signIn}
+        BurguerMenuOpen={BurguerMenuOpen}
+      />
+
       <Form
         type="Create"
         FormOpen={FormOpen}
@@ -317,6 +316,7 @@ export function MenuResponsive({
   signIn,
   userInfoDBLoading,
   setBurguerMenuOpen,
+  BurguerMenuOpen,
   providers,
 }: {
   session: type_session;
@@ -330,9 +330,15 @@ export function MenuResponsive({
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   > | null;
+  BurguerMenuOpen: boolean;
 }) {
   return (
-    <div className={style.container_resp}>
+    <div
+      className={style.container_resp}
+      style={{
+        transform: BurguerMenuOpen ? "translateX(0%)" : "translateX(-100%)",
+      }}
+    >
       <div className={style.w_content_resp}>
         {session?.user ? (
           <>
