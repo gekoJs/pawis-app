@@ -59,8 +59,10 @@ export default function Card({
   // const [] = useState()
 
   const likePOST = useMutation({
-    mutationFn: async () =>
-      await axios.post("/api/dogs/like", { id_dog, id_user }),
+    mutationFn: async () => {
+      console.log({ id_dog, id_user });
+      await axios.post("/api/dogs/like", { id_dog, id_user });
+    },
     onSuccess() {
       refetch();
     },

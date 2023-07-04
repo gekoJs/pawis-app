@@ -44,7 +44,7 @@ export default function AllCards({
             <Link href={`/dogs/${e.id}`} key={e.id} className={s.link}>
               <Card
                 id_dog={e.id}
-                id_user={e.UserId}
+                id_user={session?.user?.id}
                 user={e.User}
                 img={e.image}
                 breed={e.breed}
