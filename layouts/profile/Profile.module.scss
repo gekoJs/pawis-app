@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   gap: 1em;
-    padding: 0 1em;
+  padding: 0 1em;
 }
 
 .w_dogs_by {
@@ -19,13 +19,16 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
-    padding: 0 1em;
+  padding: 0 1em;
 }
 .name,
 .email,
 .dog_by {
   color: var(--color1);
   font-size: 1.4em;
+  span{
+    color: var(--color4);
+  }
 }
 .nothingToSee {
   width: 100%;
@@ -33,8 +36,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  p{
-      font-weight: bold;
-      color: var(--color1_op);
+  p {
+    font-weight: bold;
+    color: var(--color1_op);
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .name,
+  .email,
+  .dog_by {
+    font-size: 1em;
+  }
+}
+@media screen and (max-width: 550px) {
+  .w_user_info {
+    flex-direction: column;
+  }
+  .w_nam_email {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

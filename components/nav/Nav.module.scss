@@ -61,10 +61,7 @@
 }
 .button_create {
   background-color: var(--color5);
-  // border: 2px solid var(--color4);
   color: var(--color8);
-}
-.button:nth-child(1) {
 }
 .hover {
   transition: transform 0.2s ease;
@@ -89,7 +86,6 @@
 }
 
 //responsive -------------------------------------------
-
 
 .burguer_menu {
   display: none;
@@ -140,10 +136,11 @@
   height: 100vh;
   min-height: 100vh;
   background-color: var(--color1_op);
+  backdrop-filter: blur(4px);
   position: fixed;
   top: 0;
-  left: 0;
   z-index: 1000;
+  transition: transform .4s ease;
 }
 .w_content_resp {
   width: 80%;

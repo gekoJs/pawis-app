@@ -144,7 +144,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
           setUserData={setUserData}
           userData={userData}
         />
-        <div>
+        <div className={s.w_nam_email}>
           <h3 className={s.name}>{userData?.user?.name}</h3>
           <p className={s.email}>{userData?.user?.email}</p>
         </div>
@@ -153,7 +153,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
       <div className={s.w_dogs_by}>
         <section>
           <h4 className={s.dog_by}>
-            Created by you: {userData?.created?.length} Dogs
+            Created by you: <span>{userData?.created?.length} Dogs</span>
           </h4>
           {!!userData?.created?.length ? (
             <AllCards
@@ -171,7 +171,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
 
         <section>
           <h4 className={s.dog_by}>
-            liked by you: {userData?.liked?.length} Dogs
+            liked by you: <span>{userData?.liked?.length} Dogs</span>
           </h4>
           {!!userData?.liked?.length ? (
             <AllCards
