@@ -251,8 +251,9 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
           className={style.burguer_menu}
           onClick={() => setBurguerMenuOpen((prev) => !prev)}
         >
-          {Array.from({ length: 3 }, () => (
+          {Array.from({ length: 3 }, (e, i) => (
             <div
+              key={i}
               className={
                 BurguerMenuOpen
                   ? `${style.burguer_line} ${style.burguer_close}`
@@ -354,7 +355,11 @@ export function MenuResponsive({
             </button>
           </>
         ) : (
-          <button>Sign In</button>
+          <button
+            className={`${style.button} ${style.button_create} ${style.hover}`}
+          >
+            Sign In
+          </button>
         )}
       </div>
     </div>

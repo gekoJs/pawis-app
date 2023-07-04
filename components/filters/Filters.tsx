@@ -15,6 +15,7 @@ interface type_content {
   id: number;
   title: string;
   options?: string[];
+  svg: string;
 }
 interface type_stateToggleTitle {
   title_index: number;
@@ -42,21 +43,25 @@ export default function Filters({
       id: 0,
       title: "Temperament",
       options: [],
+      svg: "fire.svg"
     },
     {
       id: 1,
       title: "Origin",
       options: ["DataBase", "API"],
+      svg: "stork.svg"
     },
     {
       id: 2,
       title: "Order",
       options: ["A-Z", "Z-A"],
+      svg: "abc.svg"
     },
     {
       id: 3,
       title: "Weight",
       options: ["Light-Heavy", "Heavy-Light"],
+      svg: "weight_scale.svg"
     },
   ]);
   const [toggleTitle, setToggleTitle] = useState<type_stateToggleTitle>({
@@ -118,6 +123,14 @@ export default function Filters({
     const data = !!filtered?.length ? filtered : [];
     setOptionsSearched(data);
   };
+
+  const [width, setWidth] = useState<number>(0);
+  useEffect(() => {
+    const handleWindowResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
+  
   return (
     <div className={style.container}>
       {/* //TITLE ----------------------------------- */}
@@ -149,15 +162,33 @@ export default function Filters({
                 : `${style.title} ${style.hover}`
             }
           >
-            <h3>{e.title}</h3>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="48"
-              viewBox="0 -960 960 960"
-              width="28"
-            >
-              <path d="M480-345 240-585l43-43 197 198 197-197 43 43-240 239Z" />
-            </svg>
+            {width < 650 ? (
+              <>
+                <img
+                  src={`./assets/icons/${e.svg}`}
+                  className={style.title_resp}
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="48"
+                  viewBox="0 -960 960 960"
+                >
+                  <path d="M480-345 240-585l43-43 197 198 197-197 43 43-240 239Z" />
+                </svg>
+              </>
+            ) : (
+              <>
+                <h3>{e.title}</h3>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="48"
+                  viewBox="0 -960 960 960"
+                  width="28"
+                >
+                  <path d="M480-345 240-585l43-43 197 198 197-197 43 43-240 239Z" />
+                </svg>
+              </>
+            )}
           </button>
         ))}
       </div>

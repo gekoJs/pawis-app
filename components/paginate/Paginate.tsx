@@ -1,6 +1,6 @@
 "use client";
 import s from "./Paginate.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Paginate({
   length,
@@ -46,6 +46,14 @@ export default function Paginate({
       setMaxLimit(maxLimit - pagesLimit);
     }
   };
+
+  // const [width, setWidth] = useState(window.innerWidth);
+  // useEffect(() => {
+  //   const handleWindowResize = () => setWidth(window.innerWidth);
+  //   window.addEventListener("resize", handleWindowResize);
+  //   return () => window.removeEventListener("resize", handleWindowResize);
+  // }, []);
+
   return (
     <div className={s.container}>
       {minLimit >= 1 && (

@@ -53,3 +53,15 @@
     fill: var(--color4);
   }
 }
+
+
+
+@media screen and (max-width: 590px) {
+  .container{
+    gap: .5em;
+  }
+  .pageNumber,.actionButtons{
+    width: 2.5em;
+    height: 2.5em;
+  }
+}
