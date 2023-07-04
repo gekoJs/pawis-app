@@ -14,7 +14,6 @@ export default function MainLayout({
   session: any;
 }) {
   const [queryClient] = useState(() => new QueryClient());
-  console.warn({});
   return (
     <html lang="en">
       <SessionProvider session={session}>

@@ -55,18 +55,23 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   //HANDLERS---------------------------
 
   //AUTH------------------------------------------
-  const { data: session }: any = useSession();
+  const { data: session }:any = useSession();
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   > | null>(null);
 
   useEffect(() => {
+    if (!session){
+      router.push("/dogs")
+    }
+
     const setUpProviders = async () => {
       const response = await getProviders();
       setProviders(response);
     };
     setUpProviders();
+
   }, []);
 
   //AUTH------------------------------------------
@@ -209,10 +214,11 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
               >
                 Create Dog
               </button>
-
               <button
                 className={`${style.button} ${style.hover}`}
-                onClick={() => signOut()}
+                onClick={() => {
+                  signOut();
+                }}
               >
                 Sign Out
               </button>
