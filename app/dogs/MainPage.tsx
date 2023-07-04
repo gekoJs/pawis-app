@@ -33,18 +33,22 @@ export default function MainPage() {
   const [clickOnBtnSearch, setClickOnBtnSearch] = useState(false);
 
   const dispatch = useDispatch();
+
   //states-----------------------------------
 
   useEffect(() => {
+    setWidth(window.innerWidth);
     const handleWindowResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleWindowResize);
     return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
 
-  useEffect(()=>{
-    setMaxLimit(width < 450 ? 5 : 8)
-  },[width])
+  useEffect(() => {
+    setMaxLimit(width < 450 ? 5 : 8);
+  }, [width]);
+  
   //first data seeing fetch------------------
+
   const {
     data: dataDogs,
     isLoading: dogsLoading,
@@ -65,7 +69,7 @@ export default function MainPage() {
       return await getDogsByQuery({ toFilter });
     },
     enabled: false,
-  }); 
+  });
   //first data seeing fetch------------------
 
   useEffect(() => {

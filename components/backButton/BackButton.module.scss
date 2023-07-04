@@ -4,7 +4,7 @@
   bottom: 1em;
   left: 2em;
   align-self: flex-start;
-  background: var(--color3);
+  background: var(--color4);
   padding: 0.6em;
   border-radius: 0.8em;
   transition: all 0.2s ease;
@@ -20,10 +20,7 @@
     height: 2em;
   }
   &:hover {
-    background: var(--color1);
+    background: var(--color5);
     transform: translateY(-4px);
-    svg {
-      fill: var(--color3);
-    }
   }
 }

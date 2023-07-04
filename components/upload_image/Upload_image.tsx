@@ -52,7 +52,6 @@ export default function Upload_image({
     const { data, error } = await supabase.storage.from("profile_img").list("");
     if (error) {
       console.log("error", error);
-      alert("Something went wrong");
       return;
     }
     const imgToSet = data?.filter((el) => el.name === bucket_img.name);

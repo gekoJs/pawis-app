@@ -14,32 +14,29 @@
     position: relative;
     text-decoration: none;
     color: var(--color3);
+    border: none;
+
     hr {
       position: absolute;
       right: 0;
-      border-color: var(--color6);
-      opacity: .6;
+      border-color: var(--color8);
+      opacity: 0.6;
       width: 37%;
-      transition: all .2s ease;
+      transition: all 0.2s ease;
       transition-property: opacity, width;
     }
-    transition: color .2s ease;
-    &:hover{
-        color: var(--color6);
+    transition: color 0.2s ease;
+    &:hover {
+      color: var(--color6);
     }
-    &:hover hr{
-        opacity: 1;
-        width: 100%;
+    &:hover hr {
+      opacity: 1;
+      width: 100%;
     }
   }
 }
 @media screen and (max-width: 600px) {
-  .text{
-  font-size: .6em;
-  }
-}
-@media screen and (max-width: 390px) {
-  .text{
-  font-size: .5em;
+  .text {
+    font-size: 0.7em;
   }
 }
