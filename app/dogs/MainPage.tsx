@@ -27,13 +27,19 @@ export default function MainPage() {
   const [found, setFound] = useState(true);
   const [page, setPage] = useState(1);
   const [minLimit, setMinLimit] = useState(0);
-  const [maxLimit, setMaxLimit] = useState(8);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [maxLimit, setMaxLimit] = useState(width < 450 ? 5 : 8);
 
   const [clickOnBtnSearch, setClickOnBtnSearch] = useState(false);
 
   const dispatch = useDispatch();
   //states-----------------------------------
 
+  useEffect(() => {
+    const handleWindowResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
   //first data seeing fetch------------------
   const {
     data: dataDogs,
@@ -61,7 +67,6 @@ export default function MainPage() {
   useEffect(() => {
     if (clickOnBtnSearch) {
       refetchFiltered();
-      console.log("test");
     }
   }, [Object.keys(toFilter).length === 0]);
 
@@ -91,7 +96,7 @@ export default function MainPage() {
   useEffect(() => {
     setPage(1);
     setMinLimit(0);
-    setMaxLimit(8);
+    setMaxLimit(width < 450 ? 5 : 8);
   }, [searchedData, dataFiltered]);
   //for paginate-----------------------------
 

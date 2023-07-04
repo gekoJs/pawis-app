@@ -6,7 +6,6 @@
   font-family: var(--font_sec);
   color: var(--color1);
   text-align: center;
-
 }
 
 .titles_wrapper {
@@ -199,7 +198,7 @@
   }
 }
 
-.resetFilters{
+.resetFilters {
   display: block;
   margin: 1em auto;
   width: 100%;
@@ -217,5 +216,22 @@
   &:hover {
     transform: translateY(-0.2em);
     color: var(--color8);
+  }
+}
+.title_resp{
+  width: 2em;
+  height: 2em;
+}
+
+@media screen and (max-width: 700px) {
+  .title{
+    font-size: .8em;
+  }
+}
+@media screen and (max-width: 600px) {
+  .title{
+    svg{
+      height: 20px;
+    }
   }
 }
