@@ -85,6 +85,15 @@
   border-radius: 0 0 1em 1em;
   max-height: 14em;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color1);
+    border-radius: 1em;
+  }
 }
 .content_wrapper_open {
   overflow-y: hidden;
@@ -111,6 +120,7 @@
     border-radius: 1em;
     outline: none;
   }
+  
 }
 
 .buttons_wrapper {

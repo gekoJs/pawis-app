@@ -41,6 +41,9 @@ export default function MainPage() {
     return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
 
+  useEffect(()=>{
+    setMaxLimit(width < 450 ? 5 : 8)
+  },[width])
   //first data seeing fetch------------------
   const {
     data: dataDogs,
