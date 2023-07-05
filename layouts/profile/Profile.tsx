@@ -15,11 +15,19 @@ import {
   type_formComponentInputError,
 } from "@/utils/types/types";
 import { handleFormErrors } from "@/helpers/handleFormErrors";
+import { v4 as uuidv4 } from "uuid";
 //---------------------------------------------
+
+interface type_bucket {
+  name?: string;
+  file?: File | undefined;
+  localURL?: string;
+}
 
 export default function Profile({ id_user }: { id_user: string | number }) {
   const { data: session }: any = useSession();
   const [userData, setUserData] = useState<type_user>({});
+  const [BucketImg, setBucketImg] = useState<type_bucket>({});
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: [USER, id_user],
@@ -44,6 +52,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
     lifeTime_min: "",
     lifeTime_max: "",
     image: "",
+    imageFile: "",
     temperament: [],
   });
   const [errors, setErrors] = useState<type_formComponentInputError>({
@@ -64,6 +73,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
         lifeTime_min: data?.data?.lifeTime_min,
         lifeTime_max: data?.data?.lifeTime_max,
         image: data?.data?.image,
+        imageFile: "",
         temperament: [...data?.data?.Temperaments],
       });
     },
@@ -77,7 +87,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
 
   const dataToPut = {
     breed: inpValue.breed,
-    image: inpValue.image,
+    image: inpValue.image || inpValue.imageFile,
     height_min: parseInt(inpValue.height_min),
     height_max: parseInt(inpValue.height_max),
     weight_min: parseInt(inpValue.weight_min),
@@ -99,6 +109,7 @@ export default function Profile({ id_user }: { id_user: string | number }) {
         lifeTime_min: "",
         lifeTime_max: "",
         image: "",
+        imageFile: "",
         temperament: [],
       });
       setErrors({
@@ -131,6 +142,23 @@ export default function Profile({ id_user }: { id_user: string | number }) {
   useEffect(() => {
     if (!FormOpen) setSuccess(false);
   }, [FormOpen]);
+  
+  console.log(BucketImg)
+
+  const handleChangeFiletest = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const image = URL.createObjectURL(e.target.files?.[0] || new Blob());
+    const imageFile = e.target.files?.[0];
+    alert("skdjfhsdhfjsfsdhjsg")
+    const regex = /image\/(jpg|png|gif|bmp|jpeg)/;
+
+    if (imageFile && regex.test(imageFile.type)) {
+      setBucketImg({
+        name: uuidv4() + imageFile?.name.slice(imageFile.name.lastIndexOf(".")),
+        file: imageFile,
+        localURL: image,
+      });
+    }
+  };
   //EDIT DOG--------------------------------------------
   return (
     <div className={s.container}>
@@ -204,6 +232,9 @@ export default function Profile({ id_user }: { id_user: string | number }) {
           dogFetched.isRefetching
         }
         success={success}
+        BucketImg={BucketImg}
+        setBucketImg={setBucketImg}
+        handleChangeFile={handleChangeFiletest}
       />
     </div>
   );

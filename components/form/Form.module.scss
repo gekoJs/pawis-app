@@ -170,3 +170,77 @@
   color: var(--color1);
   pointer-events: none;
 }
+
+.or_span {
+  color: var(--color1);
+  font-weight: bold;
+}
+
+.w_imgInput {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  width: 100%;
+}
+.w_imgInputFile {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color1);
+  padding: 0.4em;
+  border-radius: 0.8em;
+  &:hover > .labelInputImgFile {
+    background-color: var(--color4);
+  }
+  &:hover {
+    background-color: var(--color4);
+  }
+}
+.labelInputImgFile {
+  background-color: var(--color1);
+  width: 100%;
+  padding: 1.6em 0;
+  text-align: center;
+  display: inline-block;
+  border-radius: 0.8em;
+  border: 4px dashed var(--color8);
+  cursor: pointer;
+  color: var(--color8);
+}
+.inputImgFile {
+  display: none;
+}
+.imgFile {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.8em;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.labelImg_two {
+  position: absolute;
+  bottom: -1.5em;
+  right: 0;
+  cursor: pointer;
+  color: var(--color5);
+  font-size: 0.8em;
+  font-weight: bold;
+  &:hover {
+    color: var(--color4);
+  }
+}
+.deleteImg_two {
+  right: 5em;
+  font-size: 0.8em;
+  font-weight: 800;
+  color: var(--color4);
+  border: none;
+  background-color: transparent;
+  outline: none;
+  &:hover {
+    color: var(--color4_op);
+  }
+}
