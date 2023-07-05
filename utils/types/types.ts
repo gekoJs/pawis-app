@@ -1,6 +1,7 @@
-export interface StateRedux {
+export interface type_redux {
   display: {
     display_loader: boolean;
+    display_message: boolean;
   };
   dataDogs: {
     filtered_dogs: [];
@@ -70,16 +71,8 @@ export interface type_formComponentInput {
   lifeTime_min: string;
   lifeTime_max: string;
   image: string;
+  imageFile: string;
   temperament: string[];
-  // Breed: string;
-  // Height_min: string;
-  // Height_max: string;
-  // Weight_min: string;
-  // Weight_max: string;
-  // LifeTime_min: string;
-  // LifeTime_max: string;
-  // Image: string;
-  // Temperaments: string[];
 }
 
 export interface type_formComponentInputError {

@@ -58,6 +58,15 @@ export default function Upload_image({
     setSrc_bucket(CDNURL + imgToSet[0].name || "");
   };
 
+  
+  const imgMutation = useMutation({
+    mutationFn: async () =>
+    await axios.put(`/api/profile/${userData.user?.id}`, { img: src_bucket }),
+    onSuccess: () => {
+      queryClient.invalidateQueries([USER, userData.user?.id]);
+    },
+  });
+  
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const imgFile = e.target.files?.[0];
     setBucket_img({
@@ -65,15 +74,7 @@ export default function Upload_image({
       file: imgFile,
     });
   };
-
-  const imgMutation = useMutation({
-    mutationFn: async () =>
-      await axios.put(`/api/profile/${userData.user?.id}`, { img: src_bucket }),
-    onSuccess: () => {
-      queryClient.invalidateQueries([USER, userData.user?.id]);
-    },
-  });
-
+  
   useEffect(() => {
     const uploadFile = async () => {
       const { error } = await supabase.storage

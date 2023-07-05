@@ -1,11 +1,14 @@
 "use client";
 import s from "./Card.module.scss";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction } from "react";
+import { MessageModal } from "../index";
+import { useDispatch } from "react-redux";
+import { message_active_fn } from "@/redux/displayTrigger";
 
 interface type_user {
   email: string;
@@ -56,7 +59,7 @@ export default function Card({
   const pathname = usePathname();
   const { data: session }: any = useSession();
   //---------------------------
-  // const [] = useState()
+  const dispatch = useDispatch();
 
   const likePOST = useMutation({
     mutationFn: async () => {
@@ -74,12 +77,19 @@ export default function Card({
     e.preventDefault();
     if (id_user) {
       likePOST.mutate();
+    } else {
+      dispatch(message_active_fn(true));
+
+      setTimeout(() => {
+        dispatch(message_active_fn(false));
+      }, 2000);
     }
   };
 
   const handleDeleteDog = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
+
   return (
     <div className={s.container}>
       <div className={s.wrapper_img}>

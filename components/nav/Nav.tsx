@@ -24,8 +24,20 @@ import {
   type_formComponentInputError,
 } from "@/utils/types/types";
 import { handleFormErrors } from "@/helpers/handleFormErrors";
-
+import { createClient } from "@supabase/supabase-js";
+import { v4 as uuidv4 } from "uuid";
 //------------------------------------------
+
+const supabase = createClient(
+  "https://ebdqksslaxbhtxigrgiq.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImViZHFrc3NsYXhiaHR4aWdyZ2lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4OTQ4OTIsImV4cCI6MjAwMzQ3MDg5Mn0.vwI60IImpnxiY6WwdHlCJ4_SuHOKN7WaJPm2qT4iDcI"
+);
+
+interface type_bucket {
+  name?: string;
+  file?: File | undefined;
+  localURL?: string;
+}
 
 export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   const [searchValue, setSearchValue] = useState("");
@@ -97,6 +109,7 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
   }, [session, isSuccess]);
 
   //CREATE DOG--------------------------------------------
+
   const [success, setSuccess] = useState(false);
 
   const [inpValue, setInpValue] = useState<type_formComponentInput>({
@@ -108,12 +121,15 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     lifeTime_min: "",
     lifeTime_max: "",
     image: "",
+    imageFile: "",
     temperament: [],
   });
 
   const [errors, setErrors] = useState<type_formComponentInputError>({
     breed: "",
   });
+
+  const [BucketImg, setBucketImg] = useState<type_bucket>({});
 
   const dataToPost = {
     breed: inpValue.breed,
@@ -123,7 +139,7 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     weight_max: parseInt(inpValue.weight_max),
     lifeTime_min: parseInt(inpValue.lifeTime_min),
     lifeTime_max: parseInt(inpValue.lifeTime_max),
-    image: inpValue.image,
+    image: inpValue.image || inpValue.imageFile,
     temperament: inpValue.temperament,
     userId: session?.user?.email,
   };
@@ -140,6 +156,7 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
         lifeTime_min: "",
         lifeTime_max: "",
         image: "",
+        imageFile: "",
         temperament: [],
       });
       setErrors({
@@ -156,13 +173,25 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     isError: mutateError,
     isSuccess: mutateSuccess,
   } = addDogData;
-
-  const handleSubmit = (e: any) => {
+  const uploadImage = async () => {
+    const { error } = await supabase.storage
+      .from("dog_img")
+      .upload(BucketImg.name || "", BucketImg.file || "");
+    if (error) {
+      console.log(error);
+      alert("something went wrong");
+      return "error";
+    }
+  };
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     setErrors(handleFormErrors(inpValue));
     if (!!!Object.values(errors).length && !!!mutateSuccess) {
-      addDogData.mutate();
+      const imageUploaded = await uploadImage();
+      if (imageUploaded !== "error") {
+        addDogData.mutate();
+      }
     }
   };
 
@@ -180,6 +209,21 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     }
   }, [BurguerMenuOpen]);
 
+  
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const image = URL.createObjectURL(e.target.files?.[0] || new Blob());
+    const imageFile = e.target.files?.[0];
+
+    const regex = /image\/(jpg|png|gif|bmp|jpeg)/;
+
+    if (imageFile && regex.test(imageFile.type)) {
+      setBucketImg({
+        name: uuidv4() + imageFile?.name.slice(imageFile.name.lastIndexOf(".")),
+        file: imageFile,
+        localURL: image,
+      });
+    }
+  };
   return (
     <>
       <nav className={style.container}>
@@ -292,6 +336,9 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
         isLoading={isLoading}
         isError={mutateError}
         success={success}
+        BucketImg={BucketImg}
+        setBucketImg={setBucketImg}
+        handleChangeFile={handleChangeFile}
       />
     </>
   );
@@ -332,6 +379,7 @@ export function MenuResponsive({
   > | null;
   BurguerMenuOpen: boolean;
 }) {
+  
   return (
     <div
       className={style.container_resp}

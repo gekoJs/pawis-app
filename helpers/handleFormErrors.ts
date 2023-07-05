@@ -8,6 +8,7 @@ export const handleFormErrors = ({
   lifeTime_min,
   lifeTime_max,
   image,
+  imageFile,
   temperament,
 }: any) => {
   let errors: type_formComponentInputError = {};
@@ -75,6 +76,7 @@ export const handleFormErrors = ({
     )
   )
     errors.image = "We need an image URL";
+    else if(image && imageFile) errors.image = "Only one of the images is accepted"
   //iMAGE VALIDATIONS------------------------------------
 
   //tEMPERAMENT VALIDATIONS------------------------------------
