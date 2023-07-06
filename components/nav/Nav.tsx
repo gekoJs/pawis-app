@@ -73,8 +73,10 @@ export default function Nav({ data, setSearchedData, loading, setFound }: any) {
     ClientSafeProvider
   > | null>(null);
 
+  
   useEffect(() => {
-    if (!session) {
+    const regex = /^\/profile\/([0-9]+|[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12})$/;
+    if (!session && regex.test(pathname)) {
       router.push("/dogs");
     }
 

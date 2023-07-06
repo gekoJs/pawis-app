@@ -135,10 +135,6 @@ export default function Profile({ id_user }: { id_user: string | number }) {
       addDogData.mutate();
     }
   };
-  //   useEffect(() => {
-  //     setSuccess(mutateSuccess);
-  //   }, [mutateSuccess]);
-
   useEffect(() => {
     if (!FormOpen) setSuccess(false);
   }, [FormOpen]);
